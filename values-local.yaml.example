@@ -173,6 +173,10 @@ redis:
 #   # file. You can use `ssh-keyscan` on a trusted network to find host keys.
 #   sshKnownHosts: |
 #     <hostname> <keytype> <key>
+#   # when isDate is true or unset the database is backed up as wp-db-RELEASE-DATE.sql
+#   # If isDate is set to false then backup names are a 2 week cycle of A(day number) or B(day number)
+#   # A monthly database backup and monthly wordpress manifest are always made with monthnumber prefix 
+#   isDate: true
 #   # The interval at which backups occur. Defaults to 86400 seconds (24 hours)
 #   intervalSeconds:
 # It's advisable to set resource limits to prevent your K8s cluster from
@@ -180,7 +184,7 @@ redis:
 # resources:
 #   limits:
 #     cpu: 100m
-#     memory: 512Mi
+#     memory: 512i
 #   requests:
 #     cpu: 50m
 #     memory: 256Mi
