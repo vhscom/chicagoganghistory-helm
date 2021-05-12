@@ -1,12 +1,24 @@
 ---
 
-- name: Get date
+- name: Backup - Get date
   shell:
     date '+%F'
   register: date
   changed_when: false
 
-- block:
+- name: Backup - monthnumber for monthly prefix and daydate to check day of the month
+  set_fact:
+    daydate: "{{ lookup('pipe', 'date +%d') }}"
+    monthnumber: "{{ lookup('pipe', 'date +%m') }}"
+
+- name: Backup - Make DB filename
+  set_fact:
+    backup_filename: "wp-db-{{ BACKUP_NAME }}-{{ date.stdout }}.sql"
+
+## DATE BACKUP
+
+- name: Date backup - RSync
+  block:
     - name: Create temporary backups directory
       tempfile:
         state: directory
@@ -14,13 +26,101 @@
       register: backup_dir
     - name: Export WordPress database to file
       shell:
-        wp {{ cli_args }} db export "{{ backup_dir.path }}/{{ backup_filename }}"
-    - name: Copy export to backup location
+        wp {{ cli_args }} db export --add-drop-table --porcelain "{{ backup_dir.path }}/{{ backup_filename }}"
+    - name: Monthly DB backup
+      shell:
+        wp {{ cli_args }} db export --add-drop-table --porcelain "{{ backup_dir.path }}/{{ BACKUP_NAME }}-month{{ monthnumber }}.db.sql"
+      when: (daydate | int) == 1
+    - name: Core manifest month
+      shell:
+        wp {{ cli_args }} core version --extra >> "{{ backup_dir.path }}/wp-manifest-{{ BACKUP_NAME }}-month{{ monthnumber}}.txt"
+      when: (daydate | int) == 1
+    - name: Plugin manifest month
+      shell:
+        wp {{ cli_args }} plugin list --fields=name,version,update,status >> "{{ backup_dir.path }}/wp-manifest-{{ BACKUP_NAME }}-month{{ monthnumber}}.txt"
+      when: (daydate | int) == 1
+    - name: Theme manifest month
+      shell:
+        wp {{ cli_args }} theme list --fields=name,version,update,status >> "{{ backup_dir.path }}/wp-manifest-{{ BACKUP_NAME }}-month{{ monthnumber}}.txt"
+      when: (daydate | int) == 1
+    - name: Copy the export to backup location
       shell:
         rsync -a "{{ backup_dir.path }}/{{ backup_filename }}" "{{ BACKUP_TARGET }}"
+    - name: Copy the export of monthly backup to backup location
+      shell:
+        rsync -a "{{ backup_dir.path }}/{{ BACKUP_NAME }}-month{{ monthnumber }}.db.sql" "{{ BACKUP_TARGET }}"
+      when: (daydate | int) == 1
+    - name: Copy the export of monthly wp manifest to backup location
+      shell:
+        rsync -a "{{ backup_dir.path }}/wp-manifest-{{ BACKUP_NAME }}-month{{ monthnumber}}.txt" "{{ BACKUP_TARGET }}"
+      when: (daydate | int) == 1
     - name: Remove temporary backups directory
       file:
         state: absent
         path: "{{ backup_dir.path }}/"
-  vars:
-    backup_filename: "wp-db-{{ BACKUP_NAME }}-{{ date.stdout }}.sql"
+  when: (BACKUP_ISDATE is undefined) or (BACKUP_ISDATE|bool == True)
+ 
+## CYCLE BACKUP
+
+- name: Cycle backup - two week prefix look up week number and day number
+  set_fact:
+    weeknumber: "{{ lookup('pipe', 'date +%U') }}"
+    daynumber: "{{ lookup('pipe', 'date +%u') }}"
+  when: not BACKUP_ISDATE
+
+- name: Cycle backup - two week prefix  Week A is Odd
+  set_fact:
+    prefix: "A"
+  when: ( weeknumber | int) is odd
+  when: BACKUP_ISDATE|bool == false
+  
+
+- name: Cycle backup - two week prefix Week B is Even
+  set_fact:
+    prefix: "B"
+  when: ( weeknumber | int) is even
+  when: BACKUP_ISDATE|bool == false
+
+- name: Cycle backup - Rsync database exports
+  block:
+    - name: Cycle - Create temporary backups directory
+      tempfile:
+        state: directory
+        suffix: backup
+      register: backup_dir
+    - name: Cycle - Export WordPress database with cycle prefix and weekday number to file
+      shell:
+        wp {{ cli_args }} db export  --add-drop-table --porcelain "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-{{ BACKUP_NAME }}.db.sql"
+    - name: Cycle - Monthly DB backup
+      shell:
+        wp {{ cli_args }} db export --add-drop-table --porcelain "{{ backup_dir.path }}/month{{ monthnumber }}-{{ BACKUP_NAME }}.db.sql"
+      when: (daydate | int) == 1
+    - name: Core manifest day
+      shell:
+        wp {{ cli_args }} core version --extra >> "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-manifest.txt"
+    - name: Plugin manifest day
+      shell:
+        wp {{ cli_args }} plugin list --fields=name,version,update,status >> "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-manifest.txt"
+    - name: Theme manifest day
+      shell:
+        wp {{ cli_args }} theme list --fields=name,version,update,status >> "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-manifest.txt"
+    - name: Cycle - RSync day DB export to backup location
+      shell:
+        rsync -a "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-{{ BACKUP_NAME }}.db.sql" "{{ BACKUP_TARGET }}"
+    - name: Cycle - RSync monthly DB export to backup location
+      shell:
+        rsync -a "{{ backup_dir.path }}/month{{ monthnumber }}-{{ BACKUP_NAME }}.db.sql" "{{ BACKUP_TARGET }}"
+      when: (daydate | int) == 1
+    - name: Cycle - RSync day wordpress manifest to backup location
+      shell:
+        rsync -a "{{ backup_dir.path }}/{{ prefix }}{{ daynumber}}-manifest.txt" "{{ BACKUP_TARGET }}/wordpress/"
+    - name: Cycle - Remove temporary backups directory
+      file:
+        state: absent
+        path: "{{ backup_dir.path }}/"
+  when: BACKUP_ISDATE|bool == false
+ 
+- name: Cycle backup - Rsync media files to biweekly prefix directory
+  shell: 
+    rsync -a --no-links --exclude '\.htaccess' --exclude='*cache*' --exclude='*backup*' --exclude='*.php' --exclude='*gz' --exclude='*.zip'  "{{ WP_UPLOAD_DIR }}/" "{{ BACKUP_TARGET }}/media-{{prefix}}/"
+  when: BACKUP_ISDATE|bool == false

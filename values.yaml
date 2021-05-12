@@ -337,6 +337,7 @@ redis:
 backup:
   enabled: false
   intervalSeconds: 86400
+  isDate: true
 
 wpSalts: {}
 
@@ -346,6 +347,7 @@ wpSalts: {}
 ansibleSecrets: |
   BACKUP_NAME: {{ .Release.Name }}
   BACKUP_TARGET: {{ .Values.backup.target }}
+  BACKUP_ISDATE: {{ .Values.backup.isDate }}
   DB_HOST: {{ .Release.Name }}-database
   DB_NAME: {{ .Values.database.db.name }}
   DB_PASS: {{ .Values.database.db.password }}

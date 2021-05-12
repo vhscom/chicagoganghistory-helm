@@ -14,3 +14,4 @@ kubectl delete pvc \
     redis-data-$releaseName-redis-master-0 \
     redis-data-$releaseName-redis-slave-0 \
     redis-data-$releaseName-redis-slave-1
+
