@@ -1,3 +1,9 @@
+## [0.1.7] - 2021-05-12
+
+* Add numberic based backup option that uses number-based backup scheme instead
+  of date-based. With this, you can save 1 monthly backup and two weekly backups
+  prepended with "A" and "B"
+
 ## [0.1.6] - 2021-01-14
 
 * Improve how `WP_CRON_CONTROL_SECRET` works / make sure `helm install` works with default values
