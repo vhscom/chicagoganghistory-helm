@@ -1,7 +1,7 @@
 ## [0.1.8] - 2021-06-14
 
-* Set image pull policies to IfNotPresent to prevent problems with Docker rate
-  limits
+* Set image pull policy for cronjob image to IfNotPresent to prevent problems
+  with Docker rate limits
 
 ## [0.1.7] - 2021-05-12
 
