@@ -3,6 +3,11 @@
 * Update Chart to apiVersion 2, move requirements to Chart.yaml
   NOTE: This means Helm 3 is required to install and maintain the chart
 
+## [0.1.8] - 2021-06-14
+
+* Set image pull policy for cronjob image to IfNotPresent to prevent problems
+  with Docker rate limits
+
 ## [0.1.7] - 2021-05-12
 
 * Add numberic based backup option that uses number-based backup scheme instead

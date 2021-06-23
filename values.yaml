@@ -174,7 +174,7 @@ wordpress:
       image:
         repository: bitnami/kubectl
         tag: 1.18
-        pullPolicy: Always
+        pullPolicy: IfNotPresent
       # Every 3 minutes
       schedule: "*/3 * * * *"
       # We use the internal DNS, so there is no TLS certificate
@@ -241,13 +241,13 @@ ansibleVars:
 
 image:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress
-  tag: 0.1.7
+  tag: 0.1.8
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress-cli-ansible
-  tag: 0.1.7
+  tag: 0.1.8
   pullPolicy: Always
 
 ingress:
