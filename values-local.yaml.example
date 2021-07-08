@@ -177,8 +177,9 @@ redis:
 #   # If isDate is set to false then backup names are a 2 week cycle of A(day number) or B(day number)
 #   # A monthly database backup and monthly wordpress manifest are always made with monthnumber prefix 
 #   isDate: true
-#   # The interval at which backups occur. Defaults to 86400 seconds (24 hours)
-#   intervalSeconds:
+#   # The cron schedule that determines when backups are made.
+#   # Run at 3:37 every day.
+#   schedule: "37 3 * * *"
 # It's advisable to set resource limits to prevent your K8s cluster from
 # crashing
 # resources:

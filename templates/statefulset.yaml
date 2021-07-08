@@ -128,12 +128,22 @@ spec:
               subPath: .htaccess
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-        {{- if .Values.backup.enabled }}
-        - name: {{ .Chart.Name }}-backup
+        {{- if or .Values.backup.enabled .Values.wordpress.mu_cron.enabled }}
+        - name: {{ .Chart.Name }}-cron
           image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}"
           imagePullPolicy: {{ .Values.initImage.pullPolicy }}
           command:
-            - "/var/local/ansible/scripts/backup.sh"
+            # Busybox's cron daemon.
+            - "crond"
+            # Run in foreground.
+            - "-f"
+            # Log to stderr, with level 6.
+            - "-d"
+            - "6"
+          # `crond` must be run as root, so we override the pod's security context.
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
           env:
             - name: WORDPRESS_DB_HOST
               value: {{ .Release.Name }}-database
@@ -148,9 +158,6 @@ spec:
               value: {{ .Values.database.db.name }}
             - name: WORDPRESS_TABLE_PREFIX
               value: {{ .Values.wordPressTablePrefix }}
-            - name: BACKUP_INTERVAL_SECONDS
-              # A day's worth of seconds.
-              value: {{ .Values.backup.intervalSeconds | quote }}
           volumeMounts:
             - name: {{ include "wordpress.name" . }}-wp-storage
               mountPath: /var/www/html
@@ -163,6 +170,8 @@ spec:
               subPath: main.yml
             - name: ansible-secrets
               mountPath: /var/local/ansible/secrets
+            - name: cron-schedule
+              mountPath: /etc/crontabs/
             {{- if .Values.backup.sshPrivateKey }}
             - name: ssh-private-key
               mountPath: /var/local/ssh-private-key
@@ -223,3 +232,10 @@ spec:
         - name: htuploads
           configMap:
             name: {{ include "wordpress.fullname" . }}-htuploads
+        - name: cron-schedule
+          configMap:
+            name: {{ include "wordpress.fullname" . }}-cron-schedule
+            items:
+            - key: www-data
+              # This is the name of the user with id 33 in the cli container.
+              path: "xfs"

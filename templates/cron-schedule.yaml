@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "wordpress.fullname" . }}-cron-schedule
+  labels:
+    app: {{ include "wordpress.name" . }}
+    chart: {{ include "wordpress.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  www-data: |-
+{{- if .Values.wordpress.mu_cron.enabled }}
+    {{ .Values.wordpress.mu_cron.cronjob.schedule }}  curl -s -w '%{http_code}' {{- if .Values.wordpress.mu_cron.cronjob.curlInsecure }} -k {{- end }} -L 'http://{{ include "wordpress.fullname" . }}:{{ .Values.service.port }}{{ .Values.wordpress.mu_cron.cronjob.path }}?doing_wp_cron&{{ required "Please set wordpress.mu_cron.secret to a random secret" .Values.wordpress.mu_cron.secret }}'
+{{- end }}
+{{- if .Values.backup.enabled }}
+    {{ .Values.backup.schedule }} cd /var/local/ansible && ansible-playbook backup.yml -e @secrets/secret-vars.yaml
+{{- end }}
