@@ -128,7 +128,7 @@ spec:
               subPath: .htaccess
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-        {{- if or .Values.backup.enabled .Values.wordpress.mu_cron.enabled }}
+        {{- if or .Values.backup.enabled .Values.wordpress.mu_cron.enabled .Values.customCron }}
         - name: {{ .Chart.Name }}-cron
           image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}"
           imagePullPolicy: {{ .Values.initImage.pullPolicy }}

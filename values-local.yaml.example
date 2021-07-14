@@ -180,6 +180,11 @@ redis:
 #   # The cron schedule that determines when backups are made.
 #   # Run at 3:37 every day.
 #   schedule: "37 3 * * *"
+
+# customCron:
+# - schedule: "5 * * * *"
+#   command: "echo test"
+
 # It's advisable to set resource limits to prevent your K8s cluster from
 # crashing
 # resources:

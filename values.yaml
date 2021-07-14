@@ -319,6 +319,8 @@ backup:
   schedule: "0 2 * * *"
   isDate: true
 
+customCron: []
+
 wpSalts: {}
 
 # Some of the variables configured above are put into a variable here, that's

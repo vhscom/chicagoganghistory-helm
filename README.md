@@ -91,8 +91,9 @@ $ kubectl logs <pod> -c init-wordpress
 Helm will set up the kubernetes pods that are needed to run your website:
 
 1. A WordPress pod that serves the site
-  - If you enabled `backup.enabled` or `wordpress.mu_cron.enabled`, this pod
-    will also contain a sidecar container that runs cron jobs.
+  - If you have `backup.enabled` or `wordpress.mu_cron.enabled`, or have a
+    non-empty `customCron`, this pod will also contain a sidecar container that
+    runs cron jobs.
 2. Two MariaDB pods running the database (master-slave setup by default, unless
    you changed this in `values-local.yaml`)
 3. If you configured Redis, a Redis pod is also set up
