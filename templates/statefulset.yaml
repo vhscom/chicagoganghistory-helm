@@ -6,6 +6,9 @@ metadata:
   labels:
     app: {{ include "wordpress.name" . }}
     release: {{ .Release.Name }}
+    {{- if .Values.statefulSetLabels }}
+    {{- toYaml .Values.statefulSetLabels | nindent 4 }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
@@ -18,6 +21,9 @@ spec:
       labels:
         app: {{ include "wordpress.name" . }}
         release: {{ .Release.Name }}
+        {{- if .Values.podLabels }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- end }}
       annotations:
         # Reload the pod when values-local.yaml changes, so the ansible playbook
         # gets re-run.

@@ -215,3 +215,12 @@ redis:
 # service:
 #   type: NodePort
 #   port: 12345
+
+# Labels that will be added to pods created by the wordpress StatefulSet.
+# podLabels:
+#   key: value
+#   something: else
+
+# Labels that will be added to the wordpress StatefulSet itself.
+# statefulSetLabels:
+#   someCustom: labelValue
