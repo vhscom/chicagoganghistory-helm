@@ -1,3 +1,7 @@
+## [0.2.1] - 2021-09-16
+
+* Allow setting custom labels on pods and statefulset
+
 ## [0.2.0] - 2021-05-25
 
 * Update Chart to apiVersion 2, move requirements to Chart.yaml
