@@ -264,14 +264,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
 database:
-  db:
-    user: wordpress
+  auth:
+    username: wordpress
     password: CHANGE-THIS-PASSWORD
-    name: wordpress_db
-  replication:
-    enabled: true
-  master:
+    database: wordpress_db
+  architecture: replication
+  primary:
     persistence:
       size: 4Gi
     config: |-
@@ -295,7 +295,7 @@ database:
       [manager]
       port=3306
       socket=/opt/bitnami/mariadb/tmp/mysql.sock
-  slave:
+  secondary:
     persistence:
       size: 4Gi
     config: |-
@@ -319,6 +319,7 @@ database:
       [manager]
       port=3306
       socket=/opt/bitnami/mariadb/tmp/mysql.sock
+
 redis:
   # Set redis.enabled to true to have a Redis container next to your WP. The WP will be
   # configured to connect to this Redis and `Redis Object Cache` plugin will be
@@ -348,11 +349,11 @@ ansibleSecrets: |
   BACKUP_NAME: {{ .Release.Name }}
   BACKUP_TARGET: {{ .Values.backup.target }}
   BACKUP_ISDATE: {{ .Values.backup.isDate }}
-  DB_HOST: {{ .Release.Name }}-database
-  DB_NAME: {{ .Values.database.db.name }}
-  DB_PASS: {{ .Values.database.db.password }}
+  DB_HOST: {{ .Release.Name }}-database-primary
+  DB_NAME: {{ .Values.database.auth.database }}
+  DB_PASS: {{ .Values.database.auth.password }}
   DB_PREFIX: {{ .Values.wordpress.config.db.prefix}}
-  DB_USER: {{ .Values.database.db.user }}
+  DB_USER: {{ .Values.database.auth.username }}
   LANGUAGES: {{ .Values.wordpress.site.languages }}
   DEFAULT_LANG: {{ .Values.wordpress.site.default_language }}
   WP_CONTENT_MOUNT: {{ .Values.wordpress.wp_content.mount_path }}

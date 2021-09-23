@@ -118,13 +118,11 @@ openid_connect_settings:
   role_key: roles
 
 database:
-  db:
-    user: wordpress
+  auth:
+    username: wordpress
     password: <SET A DATABASE PASSWORD>
-  rootUser:
-    password: <SET A DB ROOT USER PASSWORD FOR UPGRADES TO WORK>
-  replication:
-    password: <SET A REPLICATION USER PASSWORD IF YOU HAVE REPLICATION ENABLED>
+    rootPassword: <SET A DB ROOT USER PASSWORD FOR UPGRADES TO WORK>
+    replicationPassword: <SET A REPLICATION USER PASSWORD IF YOU HAVE REPLICATION ENABLED>
 
 # Set this to true to have a Redis container next to your WP. The WP will be
 # configured to connect to this Redis and `Redis Object Cache` plugin will be

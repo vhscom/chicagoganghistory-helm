@@ -62,14 +62,14 @@ spec:
             - name: WORDPRESS_DB_HOST
               value: {{ .Release.Name }}-database
             - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
+              value: {{ .Values.database.auth.username }}
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-database
                   key: mariadb-password
             - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
+              value: {{ .Values.database.auth.database }}
             - name: WORDPRESS_TABLE_PREFIX
               value: {{ .Values.wordPressTablePrefix }}
       containers:
@@ -108,14 +108,14 @@ spec:
             - name: WORDPRESS_DB_HOST
               value: {{ .Release.Name }}-database
             - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
+              value: {{ .Values.database.auth.username }}
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-database
                   key: mariadb-password
             - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
+              value: {{ .Values.database.auth.database }}
             - name: WORDPRESS_TABLE_PREFIX
               value: {{ .Values.wordPressTablePrefix }}
           # readinessProbe:
@@ -144,14 +144,14 @@ spec:
             - name: WORDPRESS_DB_HOST
               value: {{ .Release.Name }}-database
             - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
+              value: {{ .Values.database.auth.username }}
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-database
                   key: mariadb-password
             - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
+              value: {{ .Values.database.auth.database }}
             - name: WORDPRESS_TABLE_PREFIX
               value: {{ .Values.wordPressTablePrefix }}
             - name: BACKUP_INTERVAL_SECONDS
