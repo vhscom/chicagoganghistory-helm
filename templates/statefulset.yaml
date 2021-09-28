@@ -6,6 +6,9 @@ metadata:
   labels:
     app: {{ include "wordpress.name" . }}
     release: {{ .Release.Name }}
+    {{- if .Values.statefulSetLabels }}
+    {{- toYaml .Values.statefulSetLabels | nindent 4 }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
@@ -18,11 +21,13 @@ spec:
       labels:
         app: {{ include "wordpress.name" . }}
         release: {{ .Release.Name }}
+        {{- if .Values.podLabels }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- end }}
       annotations:
         # Reload the pod when values-local.yaml changes, so the ansible playbook
         # gets re-run.
-        checksum/config: {{ include (print $.Template.BasePath "/ansible-vars.yaml") . | sha256sum }}
-        checksum/config: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        checksum/config: {{ printf "%s%s" (include (print $.Template.BasePath "/ansible-vars.yaml") .) (include (print $.Template.BasePath "/secrets.yaml") .) | sha256sum }}
         {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 8 }}
         {{- end }}
@@ -52,20 +57,6 @@ spec:
               subPath: main.yml
             - name: ansible-secrets
               mountPath: /var/local/ansible/secrets
-          env:
-            - name: WORDPRESS_DB_HOST
-              value: {{ .Release.Name }}-database
-            - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-database
-                  key: mariadb-password
-            - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
-            - name: WORDPRESS_TABLE_PREFIX
-              value: {{ .Values.wordPressTablePrefix }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -97,21 +88,6 @@ spec:
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
-
-          env:
-            - name: WORDPRESS_DB_HOST
-              value: {{ .Release.Name }}-database
-            - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-database
-                  key: mariadb-password
-            - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
-            - name: WORDPRESS_TABLE_PREFIX
-              value: {{ .Values.wordPressTablePrefix }}
           # readinessProbe:
           #   httpGet:
           #     path: /
@@ -144,20 +120,6 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          env:
-            - name: WORDPRESS_DB_HOST
-              value: {{ .Release.Name }}-database
-            - name: WORDPRESS_DB_USER
-              value: {{ .Values.database.db.user }}
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-database
-                  key: mariadb-password
-            - name: WORDPRESS_DB_NAME
-              value: {{ .Values.database.db.name }}
-            - name: WORDPRESS_TABLE_PREFIX
-              value: {{ .Values.wordPressTablePrefix }}
           volumeMounts:
             - name: {{ include "wordpress.name" . }}-wp-storage
               mountPath: /var/www/html
