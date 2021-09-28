@@ -38,10 +38,10 @@ For a simple WordPress installation, you only need to edit the following values:
 | `ansibleVars.WP_TITLE`                | The title of the site                         | Demo WP                           |
 | `ansibleVars.WP_THEME_ACTIVE`                | A *slug* for the theme you want to install on your site (can also be changed through interface) | twentytwenty |
 | `ansibleVars.WP_EMAIL`                | The administrator's email adress              | youremailhere@example.com         |
-| `database.db.user`                    | Database user                                 | wordpress                         |
-| `database.db.password`                | `wordpress` db user password                  | You **really** need to set this   |
-| `database.db.rootUser.password `      | root user password                            | You **really** need to set this   |
-| `database.db.replicationUser.password`| replication user password                     | You **really** need to set this   |
+| `database.auth.username`              | Database user                                 | wordpress                         |
+| `database.auth.password`              | `wordpress` db user password                  | You **really** need to set this   |
+| `database.auth.rootPassword `         | root user password                            | You **really** need to set this   |
+| `database.auth.replicationPassword`   | replication user password                     | You **really** need to set this   |
 
 You can read the descriptions of the other variables in
 `values-local.yaml.example` and of even more variables in `values.yaml`.

@@ -1,3 +1,14 @@
+## Unreleased
+
+* Update mariadb chart to 9.6.0
+  NOTE: the mariadb chart does not provide backwards compatibility in this
+  case, so manual action is required if you want to upgrade an existing
+  wordpress-helm release to this new version: either by migrating database data
+  from the old release to the new one, or by using the `existingClaim`
+  parameter(s) to reuse the existing persistent volumes. For details, see
+  [mariadb chart upgrade notes](
+  https://artifacthub.io/packages/helm/bitnami/mariadb/9.6.0#to-8-0-0)
+
 ## [0.2.2] - 2021-09-22
 
 * Remove duplicate key `checksum/config` from template
