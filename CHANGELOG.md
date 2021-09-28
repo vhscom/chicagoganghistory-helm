@@ -1,3 +1,7 @@
+## [0.2.2] - 2021-09-22
+
+* Remove duplicate key `checksum/config` from template
+
 ## [0.2.1] - 2021-09-16
 
 * Allow setting custom labels on pods and statefulset
