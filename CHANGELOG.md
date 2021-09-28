@@ -9,6 +9,10 @@
   [mariadb chart upgrade notes](
   https://artifacthub.io/packages/helm/bitnami/mariadb/9.6.0#to-8-0-0)
 
+## [0.2.2] - 2021-09-22
+
+* Remove duplicate key `checksum/config` from template
+
 ## [0.2.1] - 2021-09-16
 
 * Allow setting custom labels on pods and statefulset
