@@ -1,5 +1,12 @@
-## Unreleased
+## [0.3.0] - 2021-09-28
 
+* Cron overhaul:
+  - Change the sidecar container to run a cron daemon instead of the backup
+    script with manual sleep.
+  - Put the backup script in a crontab.
+  - Remove the kubernetes CronJob that did the wordpress cron calling,
+    replacing it by a regular cronjob.
+  - Allow custom crontab entries, provided from a helm value.
 * Update mariadb chart to 9.6.0
   NOTE: the mariadb chart does not provide backwards compatibility in this
   case, so manual action is required if you want to upgrade an existing

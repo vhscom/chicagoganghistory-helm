@@ -169,32 +169,11 @@ wordpress:
     slug: wp-cron-control
     version: cecdec276f086aafb6765ea77ce8d2ce0948e01c
     phpfile: wp-cron-control.php
-    # Optional annotations to add to the cronjob object
     cronjob:
-      image:
-        repository: bitnami/kubectl
-        tag: 1.18
-        pullPolicy: IfNotPresent
       # Every 3 minutes
       schedule: "*/3 * * * *"
       # We use the internal DNS, so there is no TLS certificate
       curlInsecure: true
-      # resources:
-        # We usually recommend not to specify default resources and to leave this as a conscious
-        # choice for the user. This also increases chances charts run on environments with little
-        # resources, such as Minikube. If you do want to specify resources, uncomment the following
-        # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-        # limits:
-        #  cpu: 100m
-        #  memory: 128Mi
-        # requests:
-        #  cpu: 100m
-        #  memory: 128Mi
-      annotations: {}
-      failedJobsHistoryLimit: 3
-      successfulJobsHistoryLimit: 1
-      # Maximum number of times a failing Job is retried.
-      backoffLimit: 1
       # Path to the cronjob PHP file (gets appended to the wordpress URL)
       path: /wp-cron.php
       # You can override this key for the cronjobs. If you don't change the
@@ -241,13 +220,13 @@ ansibleVars:
 
 image:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress
-  tag: 0.2.2
+  tag: 0.3.0
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress-cli-ansible
-  tag: 0.2.2
+  tag: 0.3.0
   pullPolicy: Always
 
 ingress:
@@ -337,8 +316,11 @@ redis:
 
 backup:
   enabled: false
-  intervalSeconds: 86400
+  # Daily at 2:00.
+  schedule: "0 2 * * *"
   isDate: true
+
+customCron: []
 
 wpSalts: {}
 
