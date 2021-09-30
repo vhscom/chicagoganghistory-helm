@@ -1,3 +1,7 @@
+## [0.3.1] - 2021-09-30
+
+* Fix database service name for standalone architecture
+
 ## [0.3.0] - 2021-09-28
 
 * Cron overhaul:

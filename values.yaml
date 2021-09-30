@@ -220,13 +220,13 @@ ansibleVars:
 
 image:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress
-  tag: 0.3.0
+  tag: 0.3.1
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
   repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress-cli-ansible
-  tag: 0.3.0
+  tag: 0.3.1
   pullPolicy: Always
 
 ingress:
@@ -331,7 +331,7 @@ ansibleSecrets: |
   BACKUP_NAME: {{ .Release.Name }}
   BACKUP_TARGET: {{ .Values.backup.target }}
   BACKUP_ISDATE: {{ .Values.backup.isDate }}
-  DB_HOST: {{ .Release.Name }}-database-primary
+  DB_HOST: {{ ternary (printf "%s-%s" .Release.Name "database") (printf "%s-%s" .Release.Name "database-primary") (eq .Values.database.architecture "standalone") }}
   DB_NAME: {{ .Values.database.auth.database }}
   DB_PASS: {{ .Values.database.auth.password }}
   DB_PREFIX: {{ .Values.wordpress.config.db.prefix}}
