@@ -6,7 +6,7 @@
         "site: *\n *version: (?<currentValue>.*)"
       ],
       "depNameTemplate": "WordPress/WordPress",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-tags"
     }
   ]
 }
