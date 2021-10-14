@@ -3,7 +3,7 @@
     {
       "fileMatch": ["(^|/)values\\.yaml*$"],
       "matchStrings": [
-        "version: (?<currentValue>.*)"
+        "site:\\s*\n\\s*version: (?<currentValue>.*)"
       ],
       "depNameTemplate": "WordPress/WordPress",
       "datasourceTemplate": "github-releases"
