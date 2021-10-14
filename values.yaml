@@ -90,6 +90,7 @@ wordpress:
       pssw: CHANGE-THIS-PASSWORD
       email: mail@example.com
   site:
+    version: 5.4.2
     multilingual:
       enabled: false
       plugins: []
@@ -99,7 +100,6 @@ wordpress:
     # EXAMPLE: `default_language: fi_FI` would set Finnish for the core language
     languages: "[en_US]"
     default_language: en_US
-    version: 5.4.2
     url: "http://localhost"
     title: "Wordpress Helm"
     ## If including a plugin to alias wp login then set a path for alt and also set the config
