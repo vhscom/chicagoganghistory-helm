@@ -1,9 +1,9 @@
 {
   "regexManagers": [
     {
-      "fileMatch": ["^values.yaml$"],
+      "fileMatch": ["(^|/)values\\.yaml*$"],
       "matchStrings": [
-        "^.*site:\n.*version: (?<currentValue>.*)\n"
+        "version: (?<currentValue>.*)"
       ],
       "depNameTemplate": "WordPress/WordPress",
       "datasourceTemplate": "github-releases"
