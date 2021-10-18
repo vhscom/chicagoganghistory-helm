@@ -1,4 +1,4 @@
-FROM wordpress:cli-2.4.0-php7.3
+FROM wordpress:cli-2.5.0-php7.4
 
 USER root
 
