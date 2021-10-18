@@ -1,0 +1,25 @@
+{
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|/)values\\.yaml*$"],
+      "matchStrings": [
+        "site: *\n *version: (?<currentValue>.*)"
+      ],
+      "depNameTemplate": "WordPress/WordPress",
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["wordpress"],
+      "versioning": "regex:^cli-(?<major>\\d+)\\.(?<minor>\\d+)\\.?(?<patch>\\d+)?-php.*$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["wordpress"],
+      "versioning": "regex:^cli-\\d+\\.\\d+(\\.?\\d+)?-php(?<major>\\d+)\\.(?<minor>\\d+)$"
+    }
+  ]
+
+}
