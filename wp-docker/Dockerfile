@@ -1,4 +1,4 @@
-FROM php:7.3.31-apache-bullseye
+FROM php:8.0.11-apache-bullseye
 
 COPY install-php-extensions.sh .
 RUN chmod +x install-php-extensions.sh
