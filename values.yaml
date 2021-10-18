@@ -90,7 +90,7 @@ wordpress:
       pssw: CHANGE-THIS-PASSWORD
       email: mail@example.com
   site:
-    version: 5.4.2
+    version: 5.8.1
     multilingual:
       enabled: false
       plugins: []
