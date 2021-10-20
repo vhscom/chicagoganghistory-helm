@@ -1,3 +1,16 @@
+## Unreleased
+
+* Update redis chart to version 15
+  * BREAKING: This needs a re-install of the Redis release (this should be OK
+    because redis is only for caching). This also needs you to move the
+    following variables: 
+    - `redis.password` is now `redis.auth.password`
+    - `redis.cluster.enabled` is now `redis.architecture`, which takes values
+      "standalone" and "replication" (this chart defaults to standalone).
+    - See [the Redis chart upgrade
+      guide](https://github.com/bitnami/charts/tree/master/bitnami/redis#upgrading)
+      for other changes
+
 ## [0.3.1] - 2021-09-30
 
 * Fix database service name for standalone architecture
