@@ -192,11 +192,11 @@ service:
 # See values-local.yaml.example for an explanation of these variables
 smtp_settings:
   enabled: false
-  smtp_user: admin@example.com 
+  smtp_user: admin@example.com
   smtp_pass: password
   smtp_host: smtp.greenhost.nl
   smtp_from: admin@example.com
-  smtp_name: Admin
+  smtp_name: WordPress Admin
   smtp_port: 587
   smtp_secure: 'tls'
   smtp_auth: true
