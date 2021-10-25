@@ -179,8 +179,22 @@
 - import_tasks: redis.yml
   when: WP_REDIS_ENABLED
 
+- name: Extend functions.php file
+  lineinfile:
+    path: "{{ wordpress_homedir }}/wp-includes/functions.php"
+    regexp: '^require.+additional_functions.php'
+    line:  require( ABSPATH . WPINC . '/additional_functions.php' );
+
 - import_tasks: openid-connect.yml
   when: WP_OPENID_CONNECT_ENABLED
+
+- import_tasks: smtp.yml
+  when: WP_OPENID_CONNECT_ENABLED
+
+- name: Copy additional functions file
+  template:
+    src: templates/additional_functions.php
+    dest: "{{ wordpress_homedir }}/wp-includes/additional_functions.php"
 
 - import_tasks: multilingual.yml
   when: WP_MULTILINGUAL_ENABLED

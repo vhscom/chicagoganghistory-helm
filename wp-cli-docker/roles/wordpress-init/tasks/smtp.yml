@@ -1,0 +1,8 @@
+- name: Define SMTP variables
+  shell: wp {{ cli_args }} config set "{{ item.key }}" "{{ item.value }}" --add --type=constant
+  loop: "{{ WP_SMTP_SETTINGS | dict2items }}"
+
+- name: Define SMTP variables
+  shell: wp {{ cli_args }} config set "{{ item.key }}" "{{ item.value }}" --add --raw --type=constant
+  loop: "{{ WP_SMTP_RAW_SETTINGS | dict2items }}"
+
