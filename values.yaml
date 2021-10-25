@@ -189,26 +189,17 @@ service:
   type: ClusterIP
   port: 8080
 
+# See values-local.yaml.example for an explanation of these variables
 smtp_settings:
-  # Enable using these SMTP settings
   enabled: false
-  # Username for SMTP authentication
   smtp_user: admin@example.com 
-  # Password for STMP authentication
   smtp_pass: password
-  # Hostname of the mailserver
   smtp_host: smtp.greenhost.nl
-  # SMTP from email address
   smtp_from: admin@example.com
-  # SMTP from name
   smtp_name: Admin
-  # SMTP port number - likely to be 25, 465 or 587
   smtp_port: 587
-  # Encryption system to use - ssl or tls
   smtp_secure: 'tls'
-  # Use SMTP authentication (true|false)
   smtp_auth: true
-  # Can be set to 1 or 2 for debug logs
   smtp_debug: 0
 
 ## Dictionary with variables that are inserted into the wordpress-init default

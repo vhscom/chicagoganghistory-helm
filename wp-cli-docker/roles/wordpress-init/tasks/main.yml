@@ -179,6 +179,11 @@
 - import_tasks: redis.yml
   when: WP_REDIS_ENABLED
 
+- name: Write additional functions file
+  template:
+    src: templates/additional_functions.php
+    dest: "{{ wordpress_homedir }}/wp-includes/additional_functions.php"
+
 - name: Extend functions.php file
   lineinfile:
     path: "{{ wordpress_homedir }}/wp-includes/functions.php"
@@ -190,11 +195,6 @@
 
 - import_tasks: smtp.yml
   when: WP_OPENID_CONNECT_ENABLED
-
-- name: Copy additional functions file
-  template:
-    src: templates/additional_functions.php
-    dest: "{{ wordpress_homedir }}/wp-includes/additional_functions.php"
 
 - import_tasks: multilingual.yml
   when: WP_MULTILINGUAL_ENABLED
