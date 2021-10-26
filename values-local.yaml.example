@@ -125,7 +125,7 @@ smtp_settings:
   # Password for STMP authentication
   smtp_pass: password
   # Hostname of the mailserver
-  smtp_host: smtp.greenhost.nl
+  smtp_host: smtp.example.som
   # SMTP from email address
   smtp_from: admin@example.com
   # SMTP from name

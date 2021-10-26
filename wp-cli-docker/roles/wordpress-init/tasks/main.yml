@@ -194,7 +194,7 @@
   when: WP_OPENID_CONNECT_ENABLED
 
 - import_tasks: smtp.yml
-  when: WP_OPENID_CONNECT_ENABLED
+  when: WP_SMTP_ENABLED
 
 - import_tasks: multilingual.yml
   when: WP_MULTILINGUAL_ENABLED
