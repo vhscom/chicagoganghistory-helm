@@ -121,10 +121,6 @@ wordpress:
   theme_active: twentynineteen
   # Fallback theme from wordpress repo which is fetched + activated if helm reports an error 
   theme_fallback: twentytwenty 
-
-    
-
-
   wp_content:
     ## The directory to mount the files placed in wp-content. You shouldn't have to
     ## change this.
@@ -193,6 +189,18 @@ service:
   type: ClusterIP
   port: 8080
 
+# See values-local.yaml.example for an explanation of these variables
+smtp_settings:
+  enabled: false
+  smtp_user: admin@example.com
+  smtp_pass: password
+  smtp_host: smtp.example.com
+  smtp_from: admin@example.com
+  smtp_name: WordPress Admin
+  smtp_port: 587
+  smtp_secure: 'tls'
+  smtp_auth: true
+  smtp_debug: 0
 
 ## Dictionary with variables that are inserted into the wordpress-init default
 ## task. Feel free to override these if necessary
@@ -395,7 +403,6 @@ ansibleSecrets: |
     scope: {{ .Values.openid_connect_settings.scope }}
     state_time_limit: {{ .Values.openid_connect_settings.state_time_limit }}
     role_key: {{ .Values.openid_connect_settings.role_key }}
-
   WP_SALTS:
     AUTH_KEY: {{ .Values.wpSalts.AUTH_KEY | default ( randAlphaNum 32) }}
     AUTH_SALT: {{ .Values.wpSalts.AUTH_SALT | default ( randAlphaNum 32) }}
@@ -406,6 +413,18 @@ ansibleSecrets: |
     SECURE_AUTH_KEY: {{ .Values.wpSalts.SECURE_AUTH_KEY | default ( randAlphaNum 32) }}
     SECURE_AUTH_SALT: {{ .Values.wpSalts.SECURE_AUTH_SALT | default ( randAlphaNum 32) }}
     WP_CACHE_KEY_SALT: {{ .Values.wpSalts.WP_CACHE_KEY_SALT | default ( randAlphaNum 32) }}
+  WP_SMTP_ENABLED: {{ .Values.smtp_settings.enabled }}
+  WP_SMTP_SETTINGS:
+    SMTP_USER: {{ .Values.smtp_settings.smtp_user }}
+    SMTP_PASS: {{ .Values.smtp_settings.smtp_pass }}
+    SMTP_HOST: {{ .Values.smtp_settings.smtp_host }}
+    SMTP_FROM: {{ .Values.smtp_settings.smtp_from }}
+    SMTP_NAME: {{ .Values.smtp_settings.smtp_name }}
+    SMTP_PORT: {{ .Values.smtp_settings.smtp_port }}
+    SMTP_SECURE: {{ .Values.smtp_settings.smtp_secure }}
+  WP_SMTP_RAW_SETTINGS:
+    SMTP_AUTH: {{ .Values.smtp_settings.smtp_auth }}
+    SMTP_DEBUG: {{ .Values.smtp_settings.smtp_debug }}
 
 ## Liveness and readiness probe values
 ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes

@@ -117,6 +117,28 @@ openid_connect_settings:
   role_mapping_enabled: false
   role_key: roles
 
+smtp_settings:
+  # Enable using these SMTP settings
+  enabled: false
+  # Username for SMTP authentication
+  smtp_user: admin@example.com
+  # Password for STMP authentication
+  smtp_pass: password
+  # Hostname of the mailserver
+  smtp_host: smtp.example.som
+  # SMTP from email address
+  smtp_from: admin@example.com
+  # SMTP from name
+  smtp_name: WordPress Admin
+  # SMTP port number - likely to be 25, 465 or 587
+  smtp_port: 587
+  # Encryption system to use - ssl or tls
+  smtp_secure: 'tls'
+  # Use SMTP authentication (true|false)
+  smtp_auth: true
+  # Can be set to 1 or 2 for debug logs
+  smtp_debug: 0
+
 database:
   auth:
     username: wordpress
