@@ -1,6 +1,11 @@
-## Unreleased
+## [0.4.1] - 2021-10-26
 
+* Add SMTP settings
 * Update to stable ingress API
+* Update charts:
+  * Mariadb to 9.6.4
+  * PHP docker to 8.0.4
+  * redis to 15.5.1
 
 ## [0.4.0] - 2021-10-20
 
