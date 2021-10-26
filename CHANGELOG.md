@@ -1,3 +1,7 @@
+## Unreleased
+
+* Update to stable ingress API
+
 ## [0.4.0] - 2021-10-20
 
 * Update redis chart to version 15
