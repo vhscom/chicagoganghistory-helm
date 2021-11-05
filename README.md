@@ -235,7 +235,7 @@ Don't worry, that's the mounted `.htaccess` file. All the other files' ownership
 
 ## Known issues
 
-Take a look at https://open.greenhost.net/openappstack/wordpress-helm/-/issues
+Take a look at https://open.greenhost.net/stackspin/wordpress-helm/-/issues
 for issues that are already reported.
 
 ## Attribution

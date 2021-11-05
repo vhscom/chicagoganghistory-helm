@@ -227,14 +227,14 @@ ansibleVars:
   wordpress_default_plugins: "[classic-editor]"
 
 image:
-  repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress
-  tag: 0.4.1
+  repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress
+  tag: 0.4.2
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
-  repository: open.greenhost.net:4567/openappstack/wordpress-helm/wordpress-cli-ansible
-  tag: 0.4.1
+  repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress-cli-ansible
+  tag: 0.4.2
   pullPolicy: Always
 
 ingress:

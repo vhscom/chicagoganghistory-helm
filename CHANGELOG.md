@@ -1,3 +1,8 @@
+## [0.4.2] - 2021-11-05
+
+* Moved repository to open.greenhost.net/stackspin/wordpress-helm because the
+  OpenAppStack project got renamed to Stackspin
+
 ## [0.4.1] - 2021-10-26
 
 * Add SMTP settings
