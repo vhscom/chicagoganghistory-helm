@@ -9,7 +9,7 @@ version: 0.4.2
 icon: https://make.wordpress.org/design/files/2016/09/WordPress-logotype-wmark.png
 dependencies:
   - name: mariadb
-    version: 10.0.1
+    version: 10.0.2
     repository: "https://charts.bitnami.com/bitnami"
     tags:
       - mysql
