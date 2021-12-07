@@ -1,3 +1,11 @@
+## [0.4.3] - 2021-12-07
+
+* Release helm chart on GL helmrepository
+* Upgrade Mariadb helm chart to 10.1.0
+* Upgrade Redis helm chart to 15.6.3
+* Upgrade default WordPress version to 5.8.2
+* Use PHP 8.1
+
 ## [0.4.2] - 2021-11-05
 
 * Moved repository to open.greenhost.net/stackspin/wordpress-helm because the

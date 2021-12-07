@@ -228,13 +228,13 @@ ansibleVars:
 
 image:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress
-  tag: 0.4.2
+  tag: 0.4.3
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress-cli-ansible
-  tag: 0.4.2
+  tag: 0.4.3
   pullPolicy: Always
 
 ingress:
