@@ -106,6 +106,6 @@ release-helm:
   script:
     - if [ "$CI_COMMIT_BRANCH" == "main" ]; then export HELM_CHANNEL='stable'; else export HELM_CHANNEL='unstable'; fi
     - export CHART_FILE=$(ls wordpress-*.tgz)
-    - curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@${CHART_FILE}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/${HELM_CHANNEL}/charts"
+    - curl --fail --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@${CHART_FILE}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/${HELM_CHANNEL}/charts"
   extends:
     - .chart_release_rules
