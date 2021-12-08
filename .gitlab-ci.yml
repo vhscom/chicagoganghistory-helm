@@ -1,8 +1,4 @@
 ---
-image:
-  name: alpine/helm:3.7.1
-  entrypoint: ["/bin/sh", "-c"]
-
 # A Gitlab CI job template for building docker images using kaniko.
 #
 # Required environment variables:
@@ -14,6 +10,10 @@ image:
 # Optional environment variables:
 # - KANIKO_CONTEXT: The subdir which holds the Dockerfile, leave unset if
 #                   the Dockerfile is located at root level of the project.
+
+include:
+  remote: https://open.greenhost.net/stackspin/stackspin/-/raw/host-chart-publish-defaults/.gitlab/ci_templates/helm_package.yml
+
 .kaniko_build:
   stage: build
   image:
@@ -31,6 +31,9 @@ stages:
   - lint-helm-chart
   - package-helm-chart
   - release-helm-chart
+
+variables:
+  CHART_NAME: wordpress
 
 build-wp-cli:
   stage: build
@@ -63,49 +66,3 @@ build-wp:
       when: on_success
     - if: '$CI_COMMIT_TAG'
       when: on_success
-
-# Only package a new chart once the version number has been updated
-.chart_release_rules:
-  rules:
-    - changes:
-      - Chart.yaml
-
-lint-helm:
-  stage: lint-helm-chart
-  script:
-    - helm dep update
-    - helm lint .
-  artifacts:
-    paths:
-      - 'charts/**'
-    expire_in: 1 week
-    # Even if lint fails, upload the charts/ folder as artifact
-    when: always
-  allow_failure: true
-  rules:
-    - changes:
-      - '*.yaml'
-      - templates/*.yaml
-
-package-chart:
-  stage: package-helm-chart
-  script:
-    - helm package .
-  artifacts:
-    paths:
-      - wordpress-*
-    expire_in: 1 week
-  extends:
-    - .chart_release_rules
-
-# Push helm chart. Charts on the `main` branch are pushed to `stable`, others
-# are pushed to the `unstable` channel.
-release-helm:
-  image: "rancher/curlimages-curl:7.73.0"
-  stage: release-helm-chart
-  script:
-    - if [ "$CI_COMMIT_BRANCH" == "main" ]; then export HELM_CHANNEL='stable'; else export HELM_CHANNEL='unstable'; fi
-    - export CHART_FILE=$(ls wordpress-*.tgz)
-    - curl --fail --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@${CHART_FILE}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/${HELM_CHANNEL}/charts"
-  extends:
-    - .chart_release_rules
