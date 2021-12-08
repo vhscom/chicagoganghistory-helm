@@ -12,7 +12,7 @@
 #                   the Dockerfile is located at root level of the project.
 
 include:
-  - remote: https://open.greenhost.net/stackspin/stackspin/-/raw/host-chart-publish-defaults/.gitlab/ci_templates/helm_package.yml
+  - remote: https://open.greenhost.net/stackspin/stackspin/-/raw/main/.gitlab/ci_templates/helm_package.yml
   - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
 
 .kaniko_build:
