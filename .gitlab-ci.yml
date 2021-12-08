@@ -1,5 +1,4 @@
 ---
-
 # A Gitlab CI job template for building docker images using kaniko.
 #
 # Required environment variables:
@@ -11,6 +10,11 @@
 # Optional environment variables:
 # - KANIKO_CONTEXT: The subdir which holds the Dockerfile, leave unset if
 #                   the Dockerfile is located at root level of the project.
+
+include:
+  - remote: https://open.greenhost.net/stackspin/stackspin/-/raw/main/.gitlab/ci_templates/helm_package.yml
+  - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
+
 .kaniko_build:
   stage: build
   image:
@@ -25,9 +29,12 @@
 
 stages:
   - build
+  - lint-helm-chart
+  - package-helm-chart
+  - release-helm-chart
 
-default:
-  image: "${CI_REGISTRY_IMAGE}/${KANIKO_BUILD_IMAGENAME}:${CI_COMMIT_REF_SLUG}"
+variables:
+  CHART_NAME: wordpress
 
 build-wp-cli:
   stage: build
