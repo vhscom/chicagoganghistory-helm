@@ -15,7 +15,7 @@ dependencies:
       - mysql
     alias: database
   - name: redis
-    version: 15.6.3
+    version: 15.6.4
     repository: "https://charts.bitnami.com/bitnami"
     condition: redis.enabled
     tags:
