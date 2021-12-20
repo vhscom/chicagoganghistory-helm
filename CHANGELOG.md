@@ -1,3 +1,7 @@
+## [0.4.4] - 2021-12-20
+
+* Update PHP to 8.1.1
+
 ## [0.4.3] - 2021-12-07
 
 * Release helm chart on GL helmrepository
