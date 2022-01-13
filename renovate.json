@@ -20,6 +20,6 @@
       "matchPackageNames": ["wordpress"],
       "versioning": "regex:^cli-\\d+\\.\\d+(\\.?\\d+)?-php(?<major>\\d+)\\.(?<minor>\\d+)$"
     }
-  ]
-
+  ],
+  "bumpVersion": "patch"
 }
