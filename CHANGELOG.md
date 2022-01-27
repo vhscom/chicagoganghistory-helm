@@ -1,3 +1,25 @@
+## [0.4.9] - 2021-01-27
+
+- Update Docker containers to:
+  - php:8.1.2-apache-bullseye
+  - wordpress:cli-2.6.0-php8.1
+
+## [0.4.8] - 2021-01-26
+
+- Update Redis chart to v16.1.1
+
+## [0.4.7] - 2021-01-21
+
+- Update Redis chart to v16.0.0
+
+## [0.4.6] - 2021-01-21
+
+- Update Mariadb chart to v10.3.2
+
+## [0.4.5] - 2021-01-13
+
+- Update Redis chart to v15.7.5
+
 ## [0.4.4] - 2021-12-20
 
 * Update PHP to 8.1.1
