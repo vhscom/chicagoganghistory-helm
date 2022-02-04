@@ -37,7 +37,7 @@
 - name: Echo all the MU plugins filenames into the load.php file
   lineinfile:
     dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/load.php"
-    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.slug }}/{{ wp_mu_plugin.value.phpfile }}');"
+    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.slug }}/{{ wp_mu_plugin.phpfile }}');"
     insertbefore: EOF
   loop: "{{ WP_MU_PLUGINS }}"
   loop_control:
