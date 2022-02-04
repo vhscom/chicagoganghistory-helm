@@ -37,7 +37,7 @@
 - name: Echo all the MU plugins filenames into the load.php file
   lineinfile:
     dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/load.php"
-    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.slug }}/{{ wp_mu_plugin.phpfile }}');"
+    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.path }}/{{ wp_mu_plugin.phpfile }}');"
     insertbefore: EOF
   loop: "{{ WP_MU_PLUGINS }}"
   loop_control:
@@ -53,7 +53,7 @@
 - name: Shallow clone from the github repository
   git:
     repo: "{{ WP_MU_CRON_SETTINGS.repo}}"
-    dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/{{ WP_MU_CRON_SETTINGS.slug }}"
+    dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/{{ WP_MU_CRON_SETTINGS.path }}"
     force: yes
     depth: 1
     version: "{{ WP_MU_CRON_SETTINGS.version}}"
@@ -62,7 +62,7 @@
 - name: Append cron control plugin filename to the load.php file
   lineinfile:
     dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/load.php"
-    line: "require(WPMU_PLUGIN_DIR . '/{{ WP_MU_CRON_SETTINGS.slug }}/{{ WP_MU_CRON_SETTINGS.phpfile}}');"
+    line: "require(WPMU_PLUGIN_DIR . '/{{ WP_MU_CRON_SETTINGS.path }}/{{ WP_MU_CRON_SETTINGS.phpfile}}');"
     insertbefore: EOF
   when: WP_MU_CRON_ENABLED
 
