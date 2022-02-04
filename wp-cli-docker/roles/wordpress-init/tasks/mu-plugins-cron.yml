@@ -24,7 +24,7 @@
 
 - name: Fetch and unzip plugins in-place
   shell: curl -L {{ wp_mu_plugin.url }} | unzip -q -o -d {{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }} -
-  loop: "{{ WP_MU_PLUGINS | dict2items }}"
+  loop: "{{ WP_MU_PLUGINS }}"
   loop_control:
     loop_var: wp_mu_plugin
 

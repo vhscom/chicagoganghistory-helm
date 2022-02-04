@@ -87,12 +87,10 @@ wordpress:
   mu_plugins_enabled: false
   mu_plugins_dir: mu-plugins
   mu_plugins:
-    block-bad-queries:
-      name: Block Bad Queries
+    - name: Block Bad Queries
       phpfile: block-bad-queries.php
       url: https://downloads.wordpress.org/plugin/block-bad-queries.20200319.zip
-    stackspin:
-      name: Stackspin
+    - name: Stackspin
       phpfile: stackspin-plugin.php
       url: https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
 
