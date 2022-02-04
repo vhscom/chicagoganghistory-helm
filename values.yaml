@@ -116,8 +116,8 @@ wordpress:
       enabled: false
       # IF debug.enabled, log to wp-content/debug.log
       log: true
-      # IF debug.enabled, log to screen
-      screen: false
+      # IF debug.enabled, log to display (i.e. inside the site)
+      display: false
 
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here
@@ -229,7 +229,7 @@ ansibleVars:
   config_dir: /var/www
 
   ## Plugins
-  wordpress_default_plugins: "[classic-editor]"
+  wordpress_default_plugins: "[classic-editor, https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip]"
 
 image:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress
@@ -357,7 +357,7 @@ ansibleSecrets: |
   WP_CONTENT_REPO_VERSION: {{ .Values.git_repo.version }}
   WP_DEBUG_ENABLED: {{ .Values.wordpress.site.debug.enabled }}
   WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.log }}
-  WP_DEBUG_SCREEN: {{ .Values.wordpress.site.debug.screen }}
+  WP_DEBUG_DISPLAY: {{ .Values.wordpress.site.debug.display }}
   WP_EMAIL: {{ .Values.wordpress.config.adm.email }}
   WP_PASS: {{ .Values.wordpress.config.adm.pssw }}
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
