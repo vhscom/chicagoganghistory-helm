@@ -112,7 +112,12 @@ wordpress:
     # correctly.
     probe_path: /wp-login.php
     # Set to true to set WP_DEBUG on in the configuration
-    debug: false
+    debug:
+      enabled: false
+      # IF debug.enabled, log to wp-content/debug.log
+      log: true
+      # IF debug.enabled, log to screen
+      screen: false
 
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here
@@ -350,7 +355,9 @@ ansibleSecrets: |
   WP_CONTENT_REPO_URL: https://{{ .Values.git_repo.token_user }}:{{ .Values.git_repo.token_key }}@{{ .Values.git_repo.url }}{{ .Values.git_repo.name }}
   WP_OPENID_CONNECT_ROLE_MAPPING_ENABLED: {{ .Values.openid_connect_settings.role_mapping_enabled }}
   WP_CONTENT_REPO_VERSION: {{ .Values.git_repo.version }}
-  WP_DEBUG: {{ .Values.wordpress.site.debug }}
+  WP_DEBUG_ENABLED: {{ .Values.wordpress.site.debug.enabled }}
+  WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.log }}
+  WP_DEBUG_SCREEN: {{ .Values.wordpress.site.debug.screen }}
   WP_EMAIL: {{ .Values.wordpress.config.adm.email }}
   WP_PASS: {{ .Values.wordpress.config.adm.pssw }}
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}

@@ -171,11 +171,15 @@
 
 # Enables or disables WordPress' debug mode
 - name: Set debug mode
-  shell: wp {{ cli_args }} config set WP_DEBUG  {{ WP_DEBUG }} --raw --type=constant
+  shell: wp {{ cli_args }} config set WP_DEBUG  {{ WP_DEBUG_ENABLED }} --raw --type=constant
 
 # Enables or disables WordPress' debug mode
 - name: Set debug mode
-  shell: wp {{ cli_args }} config set WP_DEBUG_LOG  {{ WP_DEBUG }} --raw --type=constant
+  shell: wp {{ cli_args }} config set WP_DEBUG_LOG  {{ WP_DEBUG_LOG }} --raw --type=constant
+
+# Enables or disables WordPress' debug mode
+- name: Set debug mode
+  shell: wp {{ cli_args }} config set WP_DEBUG_SCREEN {{ WP_DEBUG_SCREEN }} --raw --type=constant
 
 - import_tasks: mu-plugins.yml
   when: WP_MU_PLUGINS_ENABLED
