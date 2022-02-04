@@ -93,6 +93,7 @@ wordpress:
     version: 5.8.3
     multilingual:
       enabled: false
+      # Plugins for WPML
       plugins: []
       config: []
     # NOTE: Languages are ALL available languages. en_US is always installed but it is shown explicitly
@@ -118,6 +119,12 @@ wordpress:
       log: true
       # IF debug.enabled, log to display (i.e. inside the site)
       display: false
+  # Plugins that are downloaded and enabled by default. Note that if you
+  # override this value, you need to copy whatever default values you want to
+  # keep. This value is *overridden*, not *merged*.
+  # Values can either be a slug for a WordPress plugin, or an URL to a zip file.
+  plugins:
+    - classic-editor
 
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here
@@ -148,8 +155,8 @@ wordpress:
     directory_mode: 0750
     files_mode: 0640
 
-  ## Detailed list of mu values and plugins with versions
-  ## mu_plugins_dir  'mu-plugins' maps to wp-content/mu-plugins
+  ## Enable MU plugins: https://wordpress.org/support/article/must-use-plugins/
+  ## mu_plugins_dir 'mu-plugins' maps to wp-content/mu-plugins
   ## mu_plugins are installed as hidden and cannot be updated from the UI
   # NOTE:  A value for mu_plugins_enabled must be set. Use either true or false
   mu_plugins_enabled: false
@@ -157,7 +164,7 @@ wordpress:
   # See values-local.yaml.example for an example value
   mu_plugins: []
 
-  ## Enable externally triggered cron with a cron plugin
+  ## Enable externally triggered cron with a cron plugin as an mu_plugin
   # NOTE: mu_cron is disabled by default. Set `wordpress.mu_cron.enabled` to
   # `true` and set a random `wordpress.mu_cron.secret` in your values-local to
   # enable mu_cron.
@@ -228,8 +235,6 @@ ansibleVars:
   # Config Directory
   config_dir: /var/www
 
-  ## Plugins
-  wordpress_default_plugins: "[classic-editor, https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip]"
 
 image:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress
@@ -376,6 +381,7 @@ ansibleSecrets: |
   WP_ALT_PATH: {{ .Values.wordpress.site.alt.path }}
   WP_DIR_MODE: {{ .Values.wordpress.permissions.directory_mode }}
   WP_FILES_MODE: {{ .Values.wordpress.permissions.files_mode }}
+  WP_PLUGINS: {{ .Values.wordpress.plugins | toJson }}
   WP_MU_PLUGINS_ENABLED: {{ .Values.wordpress.mu_plugins_enabled }}
   WP_MU_PLUGINS_DIR: {{ .Values.wordpress.mu_plugins_dir }}
   WP_MU_PLUGINS: {{ .Values.wordpress.mu_plugins | toJson }}
