@@ -150,7 +150,7 @@ wordpress:
   mu_plugins_enabled: false
   mu_plugins_dir: mu-plugins
   # See values-local.yaml.example for an example value
-  mu_plugins: {}
+  mu_plugins: []
 
   ## Enable externally triggered cron with a cron plugin
   # NOTE: mu_cron is disabled by default. Set `wordpress.mu_cron.enabled` to
