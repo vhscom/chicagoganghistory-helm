@@ -88,9 +88,11 @@ wordpress:
   mu_plugins_dir: mu-plugins
   mu_plugins:
     - name: Block Bad Queries
+      slug: block-bad-queries
       phpfile: block-bad-queries.php
       url: https://downloads.wordpress.org/plugin/block-bad-queries.20200319.zip
     - name: Stackspin
+      slug: stackspin-plugin
       phpfile: stackspin-plugin.php
       url: https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
 

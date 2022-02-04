@@ -173,7 +173,7 @@
 - name: Set debug mode
   shell: wp {{ cli_args }} config set WP_DEBUG  {{ WP_DEBUG }} --raw --type=constant
 
-- import_tasks: mu-plugins-cron.yml
+- import_tasks: mu-plugins.yml
   when: WP_MU_PLUGINS_ENABLED
 
 - import_tasks: redis.yml
