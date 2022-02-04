@@ -49,6 +49,13 @@ wordpress:
     # Turn on WordPress' debug mode
     # debug: true
 
+  plugins:
+    # Download plugin by slug from WordPress
+    - classic-editor
+    # Download plugin from extraordinary location
+    - https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
+
+
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here. Can also be a URL to a theme zip file.
   themes_install:
@@ -93,10 +100,6 @@ wordpress:
       # Entrypoint to plugin inside `path`
       phpfile: block-bad-queries.php
       url: https://downloads.wordpress.org/plugin/block-bad-queries.20200319.zip
-    - name: Stackspin
-      path: stackspin-plugin
-      phpfile: stackspin-plugin.php
-      url: https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
 
   ## Enable externally triggered cron for an MU cron plugin
   # NOTE: mu_plugins *must* be enabled if you want to enable mu_cron
