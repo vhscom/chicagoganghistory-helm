@@ -1,3 +1,11 @@
+## [0.5.1] - 2022-02-07
+
+- Disable auto-updates by default. WordPress updates should be managed by the
+  chart and rolled out when the chart is updated. It is still possible to
+  enable auto-updates by editing the `.Values.wordpress.updates` variables.
+- Disable editing WordPress files by default. This can be undone by setting the
+  `.Values.wordpress.disallow_file_edit` variable to `false`.
+
 ## [0.5.0] - 2022-02-04
 
 - Plugins overhaul
