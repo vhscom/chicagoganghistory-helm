@@ -366,8 +366,8 @@ ansibleSecrets: |
   DB_USER: {{ .Values.database.auth.username }}
   LANGUAGES: {{ .Values.wordpress.site.languages }}
   DEFAULT_LANG: {{ .Values.wordpress.site.default_language }}
-  WP_AUTO_UPDATE_CORE: {{ .Values.wordpress.update.wp_auto_update_core }}
-  WP_AUTOMATIC_UPDATER_DISABLED: {{ .Values.wordpress.update.automatic_updater_disabled}}
+  WP_AUTO_UPDATE_CORE: {{ .Values.wordpress.updates.wp_auto_update_core }}
+  WP_AUTOMATIC_UPDATER_DISABLED: {{ .Values.wordpress.updates.automatic_updater_disabled}}
   WP_DISALLOW_FILE_EDIT: {{ .Values.wordpress.disallow_file_edit }}
   WP_CONTENT_MOUNT: {{ .Values.wordpress.wp_content.mount_path }}
   WP_CONTENT_REPO_CONTENT_DIR: {{ .Values.git_repo.wp_content_dir }}
