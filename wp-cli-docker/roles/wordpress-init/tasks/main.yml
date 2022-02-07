@@ -122,7 +122,6 @@
     src: templates/htaccess
     dest: "{{ wordpress_homedir }}/.htaccess"
 
-
 - name: Comment close options
   shell: wp {{ cli_args }} option set close_comments_days_old 90
 
@@ -180,6 +179,15 @@
 # Enables or disables WordPress' debug mode
 - name: Set debug mode
   shell: wp {{ cli_args }} config set WP_DEBUG_DISPLAY {{ WP_DEBUG_DISPLAY }} --raw --type=constant
+
+- name: Disallow editing files from inside WordPress
+  shell: wp {{ cli_args }} config set DISALLOW_FILE_EDIT {{ WP_DISALLOW_FILE_EDIT }} --raw --type=constant
+
+- name: Disable automatic updater
+  shell: wp {{ cli_args }} config set AUTOMATIC_UPDATER_DISABLED {{ WP_AUTOMATIC_UPDATER_DISABLED }} --raw --type=constant
+
+- name: Disable automatic updates to core
+  shell: wp {{ cli_args }} config set WP_AUTO_UPDATE_CORE {{ WP_AUTO_UPDATE_CORE }} --raw --type=constant
 
 - import_tasks: mu-plugins.yml
   when: WP_MU_PLUGINS_ENABLED

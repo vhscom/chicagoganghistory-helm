@@ -125,6 +125,18 @@ wordpress:
   # Values can either be a slug for a WordPress plugin, or an URL to a zip file.
   plugins:
     - classic-editor
+  # By default we disable updating WordPress from the inside, because these
+  # updates will not persist over pod deletions. Updates should be managed by
+  # Helm.
+  updates:
+    # Controls the WP AUTOMATIC_UPDATER_DISABLED variable
+    automatic_updater_disabled: true
+    # Controls the WP WP_AUTO_UPDATE_CORE variable
+    wp_auto_update_core: false
+  # We disallow editing WordPress files through the interface, because these
+  # files could be re-deployed with their original value by Helm. This controls
+  # the DISALLOW_FILE_EDIT WordPress value.
+  disallow_file_edit: true
 
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here
@@ -354,6 +366,9 @@ ansibleSecrets: |
   DB_USER: {{ .Values.database.auth.username }}
   LANGUAGES: {{ .Values.wordpress.site.languages }}
   DEFAULT_LANG: {{ .Values.wordpress.site.default_language }}
+  WP_AUTO_UPDATE_CORE: {{ .Values.wordpress.update.wp_auto_update_core }}
+  WP_AUTOMATIC_UPDATER_DISABLED: {{ .Values.wordpress.update.automatic_updater_disabled}}
+  WP_DISALLOW_FILE_EDIT: {{ .Values.wordpress.disallow_file_edit }}
   WP_CONTENT_MOUNT: {{ .Values.wordpress.wp_content.mount_path }}
   WP_CONTENT_REPO_CONTENT_DIR: {{ .Values.git_repo.wp_content_dir }}
   WP_CONTENT_REPO_ENABLED: {{ .Values.git_repo.enabled }}
