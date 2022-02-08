@@ -128,11 +128,13 @@ wordpress:
   # By default we disable updating WordPress from the inside, because these
   # updates will not persist over pod deletions. Updates should be managed by
   # Helm.
+  # Read more at https://wordpress.org/support/article/configuring-automatic-background-updates/
   updates:
-    # Controls the WP AUTOMATIC_UPDATER_DISABLED variable
-    automatic_updater_disabled: true
-    # Controls the WP WP_AUTO_UPDATE_CORE variable
+    # Controls the WP WP_AUTO_UPDATE_CORE variable which disables core auto updates
     wp_auto_update_core: false
+    # Controls the WP AUTOMATIC_UPDATER_DISABLED variable which disables all
+    # auto updates (core, plugins, themes)
+    automatic_updater_disabled: false
   # We disallow editing WordPress files through the interface, because these
   # files could be re-deployed with their original value by Helm. This controls
   # the DISALLOW_FILE_EDIT WordPress value.
