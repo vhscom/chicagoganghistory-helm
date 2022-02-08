@@ -112,13 +112,14 @@ wordpress:
     # Path used by the liveness and readiness probes to see if the site runs
     # correctly.
     probe_path: /wp-login.php
-    # Set to true to set WP_DEBUG on in the configuration
     debug:
-      enabled: false
-      # IF debug.enabled, log to wp-content/debug.log
-      log: true
-      # IF debug.enabled, log to display (i.e. inside the site)
-      display: false
+      # Set to true to set WP_DEBUG on in the configuration. This enables the
+      # usage of wp_debug_log and wp_debug_display.
+      wp_debug: false
+      # IF debug.wp_debug, log to wp-content/debug.log
+      wp_debug_log: true
+      # IF debug.wp_debug, log to display (i.e. inside the site)
+      wp_debug_display: false
   # Plugins that are downloaded and enabled by default. Note that if you
   # override this value, you need to copy whatever default values you want to
   # keep. This value is *overridden*, not *merged*.
@@ -360,9 +361,9 @@ ansibleSecrets: |
   WP_CONTENT_REPO_URL: https://{{ .Values.git_repo.token_user }}:{{ .Values.git_repo.token_key }}@{{ .Values.git_repo.url }}{{ .Values.git_repo.name }}
   WP_OPENID_CONNECT_ROLE_MAPPING_ENABLED: {{ .Values.openid_connect_settings.role_mapping_enabled }}
   WP_CONTENT_REPO_VERSION: {{ .Values.git_repo.version }}
-  WP_DEBUG_ENABLED: {{ .Values.wordpress.site.debug.enabled }}
-  WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.log }}
-  WP_DEBUG_DISPLAY: {{ .Values.wordpress.site.debug.display }}
+  WP_DEBUG: {{ .Values.wordpress.site.debug.wp_debug }}
+  WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.wp_debug_log }}
+  WP_DEBUG_DISPLAY: {{ .Values.wordpress.site.debug.wp_debug_display }}
   WP_EMAIL: {{ .Values.wordpress.config.adm.email }}
   WP_PASS: {{ .Values.wordpress.config.adm.pssw }}
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
