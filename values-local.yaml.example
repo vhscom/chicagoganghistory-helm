@@ -46,8 +46,14 @@ wordpress:
     # # correctly. Defaults to `/wp-login.php`. Be sure to make this the same as
     # # alt_path if you use it!
     # probe_path: /wp-login.php
-    # Turn on WordPress' debug mode
-    # debug: true
+    # debug:
+    #   # Set to true to set WP_DEBUG on in the configuration. This enables the
+    #   # usage of wp_debug_log and wp_debug_display.
+    #   wp_debug: false
+    #   # IF debug.wp_debug, log to wp-content/debug.log
+    #   wp_debug_log: true
+    #   # IF debug.wp_debug, log to display (i.e. inside the site)
+    #   wp_debug_display: false
 
   plugins:
     # Download plugin by slug from WordPress
