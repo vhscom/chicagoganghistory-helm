@@ -14,9 +14,6 @@
 - name: Set MU plugins url in wp-config
   shell: wp {{ cli_args }} config set  'WPMU_PLUGIN_URL' "'{{ WP_URL }}/wp-content/mu-plugins'"  --raw --type=constant
 
-- name: Set mu_cron salt value
-  shell: wp {{ cli_args }} config set 'WP_CRON_CONTROL_SECRET' "{{ WP_MU_CRON_SETTINGS.secret }}" --add --type=constant
-
 # MU plugins directory and loader
 
 - name: Add a MU plugins directory when WP_MU_PLUGINS_DIR is set
@@ -26,8 +23,8 @@
     state: directory
 
 - name: Fetch and unzip plugins in-place
-  shell: curl -L https://downloads.wordpress.org/plugin/{{ wp_mu_plugin.key }}.{{ wp_mu_plugin.value.version}}.zip | unzip -q -o -d {{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }} -
-  loop: "{{ WP_MU_PLUGINS | dict2items }}"
+  shell: curl -L {{ wp_mu_plugin.url }} | unzip -q -o -d {{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }} -
+  loop: "{{ WP_MU_PLUGINS }}"
   loop_control:
     loop_var: wp_mu_plugin
 
@@ -40,19 +37,23 @@
 - name: Echo all the MU plugins filenames into the load.php file
   lineinfile:
     dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/load.php"
-    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.key }}/{{ wp_mu_plugin.value.phpfile }}');"
+    line: "require(WPMU_PLUGIN_DIR . '/{{ wp_mu_plugin.path }}/{{ wp_mu_plugin.phpfile }}');"
     insertbefore: EOF
-  loop: "{{ WP_MU_PLUGINS | dict2items }}"
+  loop: "{{ WP_MU_PLUGINS }}"
   loop_control:
     loop_var: wp_mu_plugin
 
 
 ### Install wp-cron as mu
 
+- name: Set mu_cron salt value
+  shell: wp {{ cli_args }} config set 'WP_CRON_CONTROL_SECRET' "{{ WP_MU_CRON_SETTINGS.secret }}" --add --type=constant
+  when: WP_MU_CRON_ENABLED
+
 - name: Shallow clone from the github repository
   git:
     repo: "{{ WP_MU_CRON_SETTINGS.repo}}"
-    dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/{{ WP_MU_CRON_SETTINGS.slug }}"
+    dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/{{ WP_MU_CRON_SETTINGS.path }}"
     force: yes
     depth: 1
     version: "{{ WP_MU_CRON_SETTINGS.version}}"
@@ -61,7 +62,7 @@
 - name: Append cron control plugin filename to the load.php file
   lineinfile:
     dest: "{{ WP_CONTENT_MOUNT }}/{{ WP_MU_PLUGINS_DIR }}/load.php"
-    line: "require(WPMU_PLUGIN_DIR . '/{{ WP_MU_CRON_SETTINGS.slug }}/{{ WP_MU_CRON_SETTINGS.phpfile}}');"
+    line: "require(WPMU_PLUGIN_DIR . '/{{ WP_MU_CRON_SETTINGS.path }}/{{ WP_MU_CRON_SETTINGS.phpfile}}');"
     insertbefore: EOF
   when: WP_MU_CRON_ENABLED
 

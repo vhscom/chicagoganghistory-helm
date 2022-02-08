@@ -159,10 +159,10 @@
 
 # Plugins
 - name: Install WordPress plugins that are activated
-  shell: wp {{ cli_args }} plugin install "{{ wordpress_default_plugin }}" --force --activate
-  loop: "{{ wordpress_default_plugins }}"
+  shell: wp {{ cli_args }} plugin install "{{ plugin }}" --force --activate
+  loop: "{{ WP_PLUGINS }}"
   loop_control:
-    loop_var: wordpress_default_plugin
+    loop_var: plugin
 
 # Option for an alt login - when an alt.path is set and an alt.config exists
 - name: Set alt path
@@ -173,7 +173,15 @@
 - name: Set debug mode
   shell: wp {{ cli_args }} config set WP_DEBUG  {{ WP_DEBUG }} --raw --type=constant
 
-- import_tasks: mu-plugins-cron.yml
+# Enables or disables WordPress' debug log
+- name: Set debug mode
+  shell: wp {{ cli_args }} config set WP_DEBUG_LOG  {{ WP_DEBUG_LOG }} --raw --type=constant
+
+# Enables or disables WordPress' debug mode on screen
+- name: Set debug mode
+  shell: wp {{ cli_args }} config set WP_DEBUG_DISPLAY {{ WP_DEBUG_DISPLAY }} --raw --type=constant
+
+- import_tasks: mu-plugins.yml
   when: WP_MU_PLUGINS_ENABLED
 
 - import_tasks: redis.yml

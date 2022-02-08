@@ -1,3 +1,20 @@
+## [0.5.0] - 2022-02-04
+
+- Plugins overhaul
+  - You can now specify plugins under `.Values.wordpress.plugins`. You can
+    specify a slug of a WordPress.org plugin, or an URL to a zip file containing
+    a plugin. Examples are shown in `values-local.yaml.example`
+  - You now need to specify mu-plugins as a list. see
+    `values-local.yaml.example` for examples. Some improvements have been made
+    too, like you don't have to enable mu_cron in order to be able to use
+    mu_plugins
+- Fine-grained control over debug functionality
+  - The boolean for the `WP_DEBUG` config variable has moved from
+    `.Values.wordpress.site.debug` to `.Values.wordpress.site.debug.enabled`.
+  - Two fields `.Values.wordpress.site.debug.display` and
+    `.Values.wordpress.site.debug.log` have been added that can be set to `true`
+    or `false` to control `WP_DEBUG_DISPLAY` and `WP_DEBUG_LOG` respectively.
+
 ## [0.4.9] - 2021-01-27
 
 - Update Docker containers to:

@@ -93,6 +93,7 @@ wordpress:
     version: 5.8.3
     multilingual:
       enabled: false
+      # Plugins for WPML
       plugins: []
       config: []
     # NOTE: Languages are ALL available languages. en_US is always installed but it is shown explicitly
@@ -111,16 +112,28 @@ wordpress:
     # Path used by the liveness and readiness probes to see if the site runs
     # correctly.
     probe_path: /wp-login.php
-    # Set to true to set WP_DEBUG on in the configuration
-    debug: false
+    debug:
+      # Set to true to set WP_DEBUG on in the configuration. This enables the
+      # usage of wp_debug_log and wp_debug_display.
+      wp_debug: false
+      # IF debug.wp_debug, log to wp-content/debug.log
+      wp_debug_log: true
+      # IF debug.wp_debug, log to display (i.e. inside the site)
+      wp_debug_display: false
+  # Plugins that are downloaded and enabled by default. Note that if you
+  # override this value, you need to copy whatever default values you want to
+  # keep. This value is *overridden*, not *merged*.
+  # Values can either be a slug for a WordPress plugin, or an URL to a zip file.
+  plugins:
+    - classic-editor
 
-  # Install includes all parent, child, default, active and fallback themes 
+  # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here
-  themes_install: 
+  themes_install:
     - twentynineteen
   theme_active: twentynineteen
-  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error 
-  theme_fallback: twentytwenty 
+  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error
+  theme_fallback: twentytwentytwo
   wp_content:
     ## The directory to mount the files placed in wp-content. You shouldn't have to
     ## change this.
@@ -143,16 +156,16 @@ wordpress:
     directory_mode: 0750
     files_mode: 0640
 
-  ## Detailed list of mu values and plugins with versions
-  ## mu_plugins_dir  'mu-plugins' maps to wp-content/mu-plugins
+  ## Enable MU plugins: https://wordpress.org/support/article/must-use-plugins/
+  ## mu_plugins_dir 'mu-plugins' maps to wp-content/mu-plugins
   ## mu_plugins are installed as hidden and cannot be updated from the UI
   # NOTE:  A value for mu_plugins_enabled must be set. Use either true or false
   mu_plugins_enabled: false
   mu_plugins_dir: mu-plugins
   # See values-local.yaml.example for an example value
-  mu_plugins: {}
+  mu_plugins: []
 
-  ## Enable externally triggered cron with a cron plugin
+  ## Enable externally triggered cron with a cron plugin as an mu_plugin
   # NOTE: mu_cron is disabled by default. Set `wordpress.mu_cron.enabled` to
   # `true` and set a random `wordpress.mu_cron.secret` in your values-local to
   # enable mu_cron.
@@ -162,7 +175,7 @@ wordpress:
     # secret: <overwrite this value in values-local.yaml>
     name: Cron Control
     repo: https://github.com/Automattic/wp-cron-control.git
-    slug: wp-cron-control
+    path: wp-cron-control
     version: cecdec276f086aafb6765ea77ce8d2ce0948e01c
     phpfile: wp-cron-control.php
     cronjob:
@@ -223,18 +236,16 @@ ansibleVars:
   # Config Directory
   config_dir: /var/www
 
-  ## Plugins
-  wordpress_default_plugins: "[classic-editor]"
 
 image:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress
-  tag: 0.4.9
+  tag: 0.5.0
   pullPolicy: Always
   pullSecrets: []
 
 initImage:
   repository: open.greenhost.net:4567/stackspin/wordpress-helm/wordpress-cli-ansible
-  tag: 0.4.9
+  tag: 0.5.0
   pullPolicy: Always
 
 ingress:
@@ -350,7 +361,9 @@ ansibleSecrets: |
   WP_CONTENT_REPO_URL: https://{{ .Values.git_repo.token_user }}:{{ .Values.git_repo.token_key }}@{{ .Values.git_repo.url }}{{ .Values.git_repo.name }}
   WP_OPENID_CONNECT_ROLE_MAPPING_ENABLED: {{ .Values.openid_connect_settings.role_mapping_enabled }}
   WP_CONTENT_REPO_VERSION: {{ .Values.git_repo.version }}
-  WP_DEBUG: {{ .Values.wordpress.site.debug }}
+  WP_DEBUG: {{ .Values.wordpress.site.debug.wp_debug }}
+  WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.wp_debug_log }}
+  WP_DEBUG_DISPLAY: {{ .Values.wordpress.site.debug.wp_debug_display }}
   WP_EMAIL: {{ .Values.wordpress.config.adm.email }}
   WP_PASS: {{ .Values.wordpress.config.adm.pssw }}
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
@@ -369,6 +382,7 @@ ansibleSecrets: |
   WP_ALT_PATH: {{ .Values.wordpress.site.alt.path }}
   WP_DIR_MODE: {{ .Values.wordpress.permissions.directory_mode }}
   WP_FILES_MODE: {{ .Values.wordpress.permissions.files_mode }}
+  WP_PLUGINS: {{ .Values.wordpress.plugins | toJson }}
   WP_MU_PLUGINS_ENABLED: {{ .Values.wordpress.mu_plugins_enabled }}
   WP_MU_PLUGINS_DIR: {{ .Values.wordpress.mu_plugins_dir }}
   WP_MU_PLUGINS: {{ .Values.wordpress.mu_plugins | toJson }}

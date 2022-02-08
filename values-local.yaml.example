@@ -46,17 +46,30 @@ wordpress:
     # # correctly. Defaults to `/wp-login.php`. Be sure to make this the same as
     # # alt_path if you use it!
     # probe_path: /wp-login.php
-    # Turn on WordPress' debug mode
-    # debug: true
+    # debug:
+    #   # Set to true to set WP_DEBUG on in the configuration. This enables the
+    #   # usage of wp_debug_log and wp_debug_display.
+    #   wp_debug: false
+    #   # IF debug.wp_debug, log to wp-content/debug.log
+    #   wp_debug_log: true
+    #   # IF debug.wp_debug, log to display (i.e. inside the site)
+    #   wp_debug_display: false
 
-  # Install includes all parent, child, default, active and fallback themes 
-  # NOTE: Use theme *slugs* here
-  themes_install: 
+  plugins:
+    # Download plugin by slug from WordPress
+    - classic-editor
+    # Download plugin from extraordinary location
+    - https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
+
+
+  # Install includes all parent, child, default, active and fallback themes
+  # NOTE: Use theme *slugs* here. Can also be a URL to a theme zip file.
+  themes_install:
    - twentynineteen
-  # this is the active theme. Also would be the child theme 
+  # this is the active theme. Also would be the child theme
   theme_active: twentynineteen
-  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error 
-  theme_fallback: twentytwenty 
+  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error
+  theme_fallback: twentytwenty
 
   wp_content:
     # The directory to mount the files placed in wp-content. You shouldn't have to
@@ -87,10 +100,12 @@ wordpress:
   mu_plugins_enabled: false
   mu_plugins_dir: mu-plugins
   mu_plugins:
-     block-bad-queries:
-       name: Block Bad Queries
-       version: 20200319
-       phpfile: block-bad-queries.php
+    - name: Block Bad Queries
+      # Path to the PHP files inside the plugin zip
+      path: block-bad-queries
+      # Entrypoint to plugin inside `path`
+      phpfile: block-bad-queries.php
+      url: https://downloads.wordpress.org/plugin/block-bad-queries.20200319.zip
 
   ## Enable externally triggered cron for an MU cron plugin
   # NOTE: mu_plugins *must* be enabled if you want to enable mu_cron
@@ -161,7 +176,7 @@ redis:
   #   persistence:
   #   # Set persistence to true you want redis to have persistence
   #     enabled: false
-  #   # disableCommand is set as null to enable FLUSHALL and FLUSHDB and allow cache purge and flush  
+  #   # disableCommand is set as null to enable FLUSHALL and FLUSHDB and allow cache purge and flush
   #   disableCommands: []
   # # Set architecture to "replication" to have a primary and secondary redis. Not necessary for caching
   # architecture: "replication"
@@ -195,7 +210,7 @@ redis:
 #     <hostname> <keytype> <key>
 #   # when isDate is true or unset the database is backed up as wp-db-RELEASE-DATE.sql
 #   # If isDate is set to false then backup names are a 2 week cycle of A(day number) or B(day number)
-#   # A monthly database backup and monthly wordpress manifest are always made with monthnumber prefix 
+#   # A monthly database backup and monthly wordpress manifest are always made with monthnumber prefix
 #   isDate: true
 #   # The cron schedule that determines when backups are made.
 #   # Run at 3:37 every day.
