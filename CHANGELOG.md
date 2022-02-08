@@ -1,3 +1,16 @@
+## [0.5.1] - 2022-02-07
+
+- Disable auto-updates of the WP core by default. WordPress Core updates should
+  be managed by the chart and rolled out when the chart is updated. Set
+  `.Values.wordpress.updates.wp_auto_update_core` to true to enable WP Core
+  auto-updates.
+
+  Additionally, is possible to disable all auto-updates (including the optional
+  plugin and theme auto-updates) by setting
+  `.Values.wordpress.updates.automatic_updater_disabled` to `true`.`
+- Disable editing WordPress files by default. This can be undone by setting the
+  `.Values.wordpress.disallow_file_edit` variable to `false`.
+
 ## [0.5.0] - 2022-02-04
 
 - Plugins overhaul
