@@ -94,7 +94,7 @@ spec:
             - name: {{ include "wordpress.name" . }}-wp-content
               mountPath: {{ .Values.wordpress.wp_content.mount_path }}
             - name: htuploads
-              mountPath: {{ .Values.wordpress.wp_content.mount_path }}/wp-uploads/.htaccess
+              mountPath: {{ .Values.wordpress.wp_content.mount_path }}/uploads/.htaccess
               subPath: .htaccess
           resources:
 {{ toYaml .Values.resources | indent 12 }}

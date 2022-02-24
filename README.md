@@ -48,7 +48,7 @@ You can read the descriptions of the other variables in
 
 ##### Note about theme fallback
 If there is no theme available to activate in wp_content then the fallback theme will be used
-This is set by wordpress.site.theme_fallback from values.yaml 
+This is set by wordpress.site.theme_fallback from values.yaml
 
 ##### Note about the `ansibleVars`:
 
@@ -117,7 +117,7 @@ sets up the wordpress. Each time a pod is (re)started, the init container:
 After the init container is done, persistent volumes are mounted:
 
 - A configmap containing the `.htaccess` file for the uploads dir is mounted in
-  wp-content/wp-uploads/.htaccess
+  wp-content/uploads/.htaccess
 
 ## Importing an existing WordPress site
 
@@ -184,7 +184,7 @@ A breakup of the command:
 - `--` tells kubectl to stop interpreting command line arguments as kubectl
   arguments
 - `mysql` executes the `mysql` command in the container, with the following
-  arguments: 
+  arguments:
   - `-uwordpress` sets the MySQL user to wordpress
   - `-p` provides the prassword of the `wordpress` user
   - `--database=wordpress_db` selects the `wordpress_db` database.
@@ -198,7 +198,7 @@ Similar to how you would normally use `scp` to copy files to a server, you can
 use `kubectl cp` to copy files to your wordpress pod. Make sure that you copy
 your wp-content directory contents to the directory you have configured as the
 `wp_content` in the `values-local.yaml`. If you haven't configured it, it
-defaults to `/var/www/wp-content-mount`. Also make sure wp-content/wp-uploads
+defaults to `/var/www/wp-content-mount`. Also make sure wp-content/uploads
 does not contain a `.htaccess` file because that is provided by this chart.
 
 run `kubectl get pods` to figure out what the name is of the pod running
@@ -225,8 +225,8 @@ You'll have to change the ownership of the files to UID 33 (the `www-data` user 
 $ kubectl exec -it wordpress-master-0 -- chown -R 33:33 /var/www/wp-content-mount
 ```
 
-Note: this will say 
-`chown: changing ownership of '/var/www/wp-uploads-mount/.htaccess': Read-only file system`. 
+Note: this will say
+`chown: changing ownership of '/var/www/wp-content/uploads/.htaccess': Read-only file system`.
 Don't worry, that's the mounted `.htaccess` file. All the other files' ownership *will* have changed.
 
 ## Known issues

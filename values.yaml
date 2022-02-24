@@ -133,18 +133,15 @@ wordpress:
   disallow_file_edit: true
 
   # Install includes all parent, child, default, active and fallback themes
-  # NOTE: Use theme *slugs* here
+  # NOTE: Use theme *slugs* here, or full URLs to a theme .zip
   themes_install:
     - twentynineteen
-  theme_active: twentynineteen
-  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error
-  theme_fallback: twentytwentytwo
   wp_content:
     ## The directory to mount the files placed in wp-content. You shouldn't have to
     ## change this.
     mount_path: /var/www/wp-content-mount
   wp_upload:
-    ## Contents of the .htaccess file that is mounted in the wp-uploads directory
+    ## Contents of the .htaccess file that is mounted in the wp-content/uploads directory
     htaccess: |
       ## Disable access to all file types except the following
       Require all denied
@@ -370,9 +367,7 @@ ansibleSecrets: |
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
   WP_REDIS_HOST: {{ .Release.Name }}-redis-master
   WP_REDIS_PASSWORD: {{ .Values.redis.password | default ( randAlphaNum 15 ) }}
-  WP_THEME_ACTIVE: {{ .Values.wordpress.theme_active }}
   WP_THEMES_INSTALL: {{ .Values.wordpress.themes_install }}
-  WP_THEME_FALLBACK: {{ .Values.wordpress.theme_fallback }}
   WP_TITLE: {{ .Values.wordpress.site.title }}
   WP_URL: {{ .Values.wordpress.site.url }}
   WP_USER: {{ .Values.wordpress.config.adm.usid }}
