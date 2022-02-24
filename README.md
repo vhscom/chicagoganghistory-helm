@@ -46,10 +46,6 @@ For a simple WordPress installation, you only need to edit the following values:
 You can read the descriptions of the other variables in
 `values-local.yaml.example` and of even more variables in `values.yaml`.
 
-##### Note about theme fallback
-If there is no theme available to activate in wp_content then the fallback theme will be used
-This is set by wordpress.site.theme_fallback from values.yaml
-
 ##### Note about the `ansibleVars`:
 
 All the variables under `ansibleVars` are used by the ansible playbook that is

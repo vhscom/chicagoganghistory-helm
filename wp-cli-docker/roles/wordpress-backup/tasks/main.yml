@@ -120,7 +120,7 @@
         path: "{{ backup_dir.path }}/"
   when: BACKUP_ISDATE|bool == false
  
-- name: Cycle backup - Rsync media files to biweekly prefix directory
+- name: Cycle backup - Rsync wp-content files to biweekly prefix directory
   shell: 
-    rsync -a --no-links --exclude '\.htaccess' --exclude='*cache*' --exclude='*backup*' --exclude='*.php' --exclude='*gz' --exclude='*.zip'  "{{ WP_CONTENT_MOUNT }}/" "{{ BACKUP_TARGET }}/media-{{prefix}}/"
+    rsync -a --no-links --exclude '\.htaccess' --exclude='*cache*' --exclude='*backup*' --exclude='*.php' --exclude='*gz' --exclude='*.zip'  "{{ WP_CONTENT_MOUNT }}/" "{{ BACKUP_TARGET }}/wp-content-{{prefix}}/"
   when: BACKUP_ISDATE|bool == false
