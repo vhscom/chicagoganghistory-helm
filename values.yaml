@@ -135,7 +135,7 @@ wordpress:
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here, or full URLs to a theme .zip
   themes_install:
-    - twentynineteen
+    - twentytwentytwo
   wp_content:
     ## The directory to mount the files placed in wp-content. You shouldn't have to
     ## change this.
