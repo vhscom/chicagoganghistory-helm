@@ -3,7 +3,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "wordpress.fullname" . }}-wp-uploads
+  name: {{ template "wordpress.fullname" . }}-wp-content
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}

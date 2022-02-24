@@ -1,13 +1,4 @@
 ---
-git_repo:
-  enabled: false
-  name: /my/repo
-  url: gitlab.com
-  version: "HEAD"
-  token_user: token-here
-  token_key: key-here
-  wp_content_dir: "."
-
 # Default settings for OpenID Connect
 openid_connect_settings:
   enabled: false
@@ -142,21 +133,15 @@ wordpress:
   disallow_file_edit: true
 
   # Install includes all parent, child, default, active and fallback themes
-  # NOTE: Use theme *slugs* here
+  # NOTE: Use theme *slugs* here, or full URLs to a theme .zip
   themes_install:
-    - twentynineteen
-  theme_active: twentynineteen
-  # Fallback theme from wordpress repo which is fetched + activated if helm reports an error
-  theme_fallback: twentytwentytwo
+    - twentytwentytwo
   wp_content:
     ## The directory to mount the files placed in wp-content. You shouldn't have to
     ## change this.
     mount_path: /var/www/wp-content-mount
   wp_upload:
-    ## The directory to mount the files placed in wp-content/uploads. You shouldn't
-    ## have to change this.
-    mount_path: /var/www/wp-uploads-mount
-    ## Contents of the .htaccess file that is mounted in the `wpUploadMnt` directory
+    ## Contents of the .htaccess file that is mounted in the wp-content/uploads directory
     htaccess: |
       ## Disable access to all file types except the following
       Require all denied
@@ -373,11 +358,7 @@ ansibleSecrets: |
   WP_AUTOMATIC_UPDATER_DISABLED: {{ .Values.wordpress.updates.automatic_updater_disabled}}
   WP_DISALLOW_FILE_EDIT: {{ .Values.wordpress.disallow_file_edit }}
   WP_CONTENT_MOUNT: {{ .Values.wordpress.wp_content.mount_path }}
-  WP_CONTENT_REPO_CONTENT_DIR: {{ .Values.git_repo.wp_content_dir }}
-  WP_CONTENT_REPO_ENABLED: {{ .Values.git_repo.enabled }}
-  WP_CONTENT_REPO_URL: https://{{ .Values.git_repo.token_user }}:{{ .Values.git_repo.token_key }}@{{ .Values.git_repo.url }}{{ .Values.git_repo.name }}
   WP_OPENID_CONNECT_ROLE_MAPPING_ENABLED: {{ .Values.openid_connect_settings.role_mapping_enabled }}
-  WP_CONTENT_REPO_VERSION: {{ .Values.git_repo.version }}
   WP_DEBUG: {{ .Values.wordpress.site.debug.wp_debug }}
   WP_DEBUG_LOG: {{ .Values.wordpress.site.debug.wp_debug_log }}
   WP_DEBUG_DISPLAY: {{ .Values.wordpress.site.debug.wp_debug_display }}
@@ -386,11 +367,8 @@ ansibleSecrets: |
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
   WP_REDIS_HOST: {{ .Release.Name }}-redis-master
   WP_REDIS_PASSWORD: {{ .Values.redis.password | default ( randAlphaNum 15 ) }}
-  WP_THEME_ACTIVE: {{ .Values.wordpress.theme_active }}
   WP_THEMES_INSTALL: {{ .Values.wordpress.themes_install }}
-  WP_THEME_FALLBACK: {{ .Values.wordpress.theme_fallback }}
   WP_TITLE: {{ .Values.wordpress.site.title }}
-  WP_UPLOAD_DIR: {{ .Values.wordpress.wp_upload.mount_path }}
   WP_URL: {{ .Values.wordpress.site.url }}
   WP_USER: {{ .Values.wordpress.config.adm.usid }}
   WP_VERSION: {{ .Values.wordpress.site.version }}

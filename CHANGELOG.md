@@ -1,3 +1,27 @@
+## [0.6.0] - 2022-02-24
+
+- Remove "wp-content as a git repository" feature and make wp-content folder
+  persistent
+
+  **Upgrade notes**: This version renames the `wp-uploads` PVC to `wp-content`.
+  If you have installed this chart with `persistence` enabled, but without using
+  an `existingClaim`, please back-up the contents of your wp-uploads PVC.
+
+  If you *did* use an `existingClaim`, your PVC will keep being used, but it
+  will now be used for the whole `wp-content` folder instead of only the
+  `uploads`. As part of the upgrade procedure, move (or copy) the contents of
+  the PVC into an `uploads` folder:
+
+  ```
+  cd /var/www/wp-content-mount
+  mkdir uploads
+  mv * uploads
+  ```
+
+- Remove `theme_active` and `theme_fallback` settings. Activating themes should
+  now be done through the wp-admin panel. On the plus-side: a restart of the pod
+  will not remove your activated theme.
+
 ## [0.5.1] - 2022-02-07
 
 - Disable auto-updates of the WP core by default. WordPress Core updates should
