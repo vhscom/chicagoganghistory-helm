@@ -1,21 +1,3 @@
-# These variables allow you to configure a git repository that contains custom
-# wpContent content.
-git_repo:
-  enabled: false
-  # Directory that contains the wp-content content in your repo. The default is
-  # `.`, which means that your repository contains folders like languages,
-  # plugins and themes in the root of the repo. If your git repository has a
-  # `wp-content` folder in it, point to that folder instead.
-  wp_content_dir: "."
-  # URL to your GitLab
-  url: git.example.com
-  # Part after the GitLab URL to the gitlab repo
-  name: /group/repo
-  version: "HEAD"
-  # GitLab token and key to get access to repo
-  token_user: gitlab-token
-  token_key: gitlab-key
-
 wordpress:
   config:
     db:
@@ -76,9 +58,6 @@ wordpress:
     # change this.
     mount_path: /var/www/wp-content-mount
   wp_upload:
-    # The directory to mount the files placed in wp-content/uploads. You shouldn't
-    # have to change this.
-    mount_path: /var/www/wp-uploads-mount
     # Contents of the .htaccess file that is mounted in the `wpUploadMnt` directory
     htaccess: |
       # Disable access to all file types except the following

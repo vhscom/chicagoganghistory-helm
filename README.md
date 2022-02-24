@@ -116,12 +116,8 @@ sets up the wordpress. Each time a pod is (re)started, the init container:
 
 After the init container is done, persistent volumes are mounted:
 
-- `wpContentDir` contains the `wp-content` directory and is persistent over pod
-  restarts
-- `wpUploadDir` contains the `uploads` directory that is usually a subdirectory
-  of the `wp-content` dir and is persistent.
 - A configmap containing the `.htaccess` file for the uploads dir is mounted in
-  `wpUploadDir`/.htaccess
+  wp-content/wp-uploads/.htaccess
 
 ## Importing an existing WordPress site
 
@@ -200,10 +196,10 @@ A breakup of the command:
 
 Similar to how you would normally use `scp` to copy files to a server, you can
 use `kubectl cp` to copy files to your wordpress pod. Make sure that you copy
-your uploads directory contents to the directory you have configured as the
-`wpUploadDir` in the `values-local.yaml`. If you haven't configured it, it
-defaults to `/var/www/wp-uploads-mount`. Also make sure it does not contain a
-`.htaccess` file because that is provided by this chart.
+your wp-content directory contents to the directory you have configured as the
+`wp_content` in the `values-local.yaml`. If you haven't configured it, it
+defaults to `/var/www/wp-content-mount`. Also make sure wp-content/wp-uploads
+does not contain a `.htaccess` file because that is provided by this chart.
 
 run `kubectl get pods` to figure out what the name is of the pod running
 WordPress:
@@ -220,13 +216,13 @@ In this case, we have 2 mariadb pods and one WordPress pod. We can copy the
 wp-content contents to the pod with the following command:
 
 ```bash
-$ kubectl cp uploads/ wordpress-master-0:/var/www/wp-uploads-mount
+$ kubectl cp wp-content/ wordpress-master-0:/var/www/wp-content-mount
 ```
 
 You'll have to change the ownership of the files to UID 33 (the `www-data` user in the WordPress container):
 
 ```bash
-$ kubectl exec -it wordpress-master-0 -- chown -R 33:33 /var/www/wp-uploads-mount
+$ kubectl exec -it wordpress-master-0 -- chown -R 33:33 /var/www/wp-content-mount
 ```
 
 Note: this will say 

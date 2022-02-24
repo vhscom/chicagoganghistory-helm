@@ -88,19 +88,13 @@ spec:
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: apache
           volumeMounts:
             - name: {{ include "wordpress.name" . }}-wp-storage
               mountPath: /var/www/html
             - name: {{ include "wordpress.name" . }}-wp-content
               mountPath: {{ .Values.wordpress.wp_content.mount_path }}
-            - name: {{ include "wordpress.name" . }}-wp-uploads
-              mountPath: {{ .Values.wordpress.wp_upload.mount_path }}
             - name: htuploads
-              mountPath: {{ .Values.wordpress.wp_upload.mount_path }}/.htaccess
+              mountPath: {{ .Values.wordpress.wp_content.mount_path }}/wp-uploads/.htaccess
               subPath: .htaccess
           resources:
 {{ toYaml .Values.resources | indent 12 }}
@@ -125,8 +119,6 @@ spec:
               mountPath: /var/www/html
             - name: {{ include "wordpress.name" . }}-wp-content
               mountPath: {{ .Values.wordpress.wp_content.mount_path }}
-            - name: {{ include "wordpress.name" . }}-wp-uploads
-              mountPath: {{ .Values.wordpress.wp_upload.mount_path }}
             - name: ansible-vars
               mountPath: /var/local/ansible/roles/wordpress-backup/defaults/main.yml
               subPath: main.yml
@@ -160,11 +152,9 @@ spec:
         - name: {{ include "wordpress.name" . }}-wp-storage
           emptyDir: {}
         - name: {{ include "wordpress.name" . }}-wp-content
-          emptyDir: {}
-        - name: {{ include "wordpress.name" . }}-wp-uploads
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "wordpress.fullname" . }}-wp-uploads{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "wordpress.fullname" . }}-wp-content{{- end }}
         {{- else }}
           emptyDir: {}
         {{- end }}
