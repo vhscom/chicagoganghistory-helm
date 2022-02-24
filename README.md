@@ -110,10 +110,13 @@ sets up the wordpress. Each time a pod is (re)started, the init container:
 
 ### WordPress setup
 
-After the init container is done, persistent volumes are mounted:
-
-- A configmap containing the `.htaccess` file for the uploads dir is mounted in
-  wp-content/uploads/.htaccess
+The WordPress core is installed into ephemeral storage. Updates to the WordPress
+core should be handled by the helm chart, rather than done through the WP-admin
+interface. However, the wp-content directory is mounted on a persistent volume
+(as long as `persistence.enabled` is set to `true`), and a configmap containing
+the `.htaccess` file for the uploads dir is mounted in
+`wp-content/uploads/.htaccess`. This `.htaccess` file can be edited by editing
+the `wordpress.wp_upload.htaccess` helm value.
 
 ## Importing an existing WordPress site
 
