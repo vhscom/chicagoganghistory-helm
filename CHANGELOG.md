@@ -1,3 +1,11 @@
+## [0.6.2] - 2022-02-25
+
+- Set correct tags for Wordpress containers
+
+## [0.6.1] - 2022-02-25
+
+- Upgrade Redis helm version to 16.4.2
+
 ## [0.6.0] - 2022-02-24
 
 - Remove "wp-content as a git repository" feature and make wp-content folder
