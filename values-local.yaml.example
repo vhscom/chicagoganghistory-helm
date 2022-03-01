@@ -42,12 +42,17 @@ wordpress:
     - classic-editor
     # Download plugin from extraordinary location
     - https://github.com/level73/stackspin-plugin/archive/refs/heads/main.zip
+    # Download plugins added for Chicago Gang History
+    - cryout-serious-slider
 
 
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here. Can also be a URL to a theme zip file.
   themes_install:
     - twentytwentytwo
+    - bravada
+    # Comment out after first deploy until fixed: https://open.greenhost.net/stackspin/stackspin/-/issues/1163
+    - https://codeberg.org/vhs/valkyrie/archive/1.0.0-bravada.zip
 
   wp_content:
     # The directory to mount the files placed in wp-content. You shouldn't have to
