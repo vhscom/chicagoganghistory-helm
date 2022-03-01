@@ -16,8 +16,8 @@ wordpress:
     # site URL in its database. To change this value, you would need to helm
     # delete and then helm install the chart again, or manually change the
     # WordPress database fields that contain the URL.
-    url: "http://localhost"
-    title: "Wordpress Helm"
+    url: "http://nyc1-k3s-cluster"
+    title: "Chicago Gang History"
     # If you are including a plugin to alias wp login then set an alt.path and set alt.config options
     # NOTE: The value of alt enabled must be set as true or false
     alt:
@@ -47,7 +47,7 @@ wordpress:
   # Install includes all parent, child, default, active and fallback themes
   # NOTE: Use theme *slugs* here. Can also be a URL to a theme zip file.
   themes_install:
-   - twentynineteen
+    - twentytwentytwo
 
   wp_content:
     # The directory to mount the files placed in wp-content. You shouldn't have to
@@ -205,16 +205,16 @@ redis:
 #     cpu: 50m
 #     memory: 256Mi
 
-# ingress:
-#   # If this is false, no ingress is created by the helm chart
-#   enabled: true
-#   # Example annotation to make cert-manager manage the TLS certificates for
-#   # this ingress (Don't supply crt and key to the tls config in this case).
-#   # annotations:
-#   #   kubernetes.io/tls-acme: "true"
-#   path: /
-#   hosts:
-#     - <YOUR HOSTNAME HERE>
+ingress:
+  # If this is false, no ingress is created by the helm chart
+  enabled: true
+  # Example annotation to make cert-manager manage the TLS certificates for
+  # this ingress (Don't supply crt and key to the tls config in this case).
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - nyc1-k3s-cluster
 #   tls:
 #     - hosts:
 #         - <REPEAT YOUR HOSTNAME HERE>
