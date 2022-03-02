@@ -48,6 +48,8 @@ wordpress:
     - pods
     - pods-seo
     - photoswipe-masonry
+    - akismet
+    - wp-cerber
 
 
   # Install includes all parent, child, default, active and fallback themes
