@@ -85,7 +85,7 @@ wordpress:
       path: block-bad-queries
       # Entrypoint to plugin inside `path`
       phpfile: block-bad-queries.php
-      url: https://downloads.wordpress.org/plugin/block-bad-queries.20200319.zip
+      url: https://downloads.wordpress.org/plugin/block-bad-queries.20220122.zip
 
   ## Enable externally triggered cron for an MU cron plugin
   # NOTE: mu_plugins *must* be enabled if you want to enable mu_cron
