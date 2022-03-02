@@ -50,6 +50,11 @@ wordpress:
     - photoswipe-masonry
     - akismet
     - wp-cerber
+    - wordpress-seo
+    - newsletter
+    - caldera-forms
+    - caldera-smtp-mailer
+    - easy-google-adsense
 
 
   # Install includes all parent, child, default, active and fallback themes
