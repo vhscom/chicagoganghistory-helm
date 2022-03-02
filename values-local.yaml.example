@@ -63,7 +63,7 @@ wordpress:
     - twentytwentytwo
     - bravada
     # Comment out after first deploy until fixed: https://open.greenhost.net/stackspin/stackspin/-/issues/1163
-    - https://codeberg.org/vhs/valkyrie/archive/1.0.0-bravada.zip
+    - https://codeberg.org/vhs/valkyrie/archive/1.0.1-bravada.zip
 
   wp_content:
     # The directory to mount the files placed in wp-content. You shouldn't have to
