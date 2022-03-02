@@ -77,7 +77,7 @@ wordpress:
   ## mu_dir  'mu-plugins' maps to wp-content/mu-plugins
   ## mu_plugins supplies a detailed list of mu values and plugins with versions
 
-  mu_plugins_enabled: false
+  mu_plugins_enabled: true
   mu_plugins_dir: mu-plugins
   mu_plugins:
     - name: Block Bad Queries
@@ -90,8 +90,8 @@ wordpress:
   ## Enable externally triggered cron for an MU cron plugin
   # NOTE: mu_plugins *must* be enabled if you want to enable mu_cron
   mu_cron:
-    enabled: false
-    # secret: <Set random secret here>
+    enabled: true
+    secret: <SET RANDOM SECRET HERE>
     # # By default cron runs every 3 minutes, but you can change the schedule
     # # here:
     # cronjob:
@@ -149,17 +149,17 @@ redis:
   # Set redis.enabled to true to have a Redis container next to your WP. The WP will be
   # configured to connect to this Redis and `Redis Object Cache` plugin will be
   # installed as a conventional plugin.
-  enabled: false
-  # auth:
-  #   password: <SET A REDIS PASSWORD HERE>
-  # master:
-  #   persistence:
-  #   # Set persistence to true you want redis to have persistence
-  #     enabled: false
-  #   # disableCommand is set as null to enable FLUSHALL and FLUSHDB and allow cache purge and flush
-  #   disableCommands: []
-  # # Set architecture to "replication" to have a primary and secondary redis. Not necessary for caching
-  # architecture: "replication"
+  enabled: true
+  auth:
+    password: <SET A REDIS PASSWORD HERE>
+  master:
+    persistence:
+    # Set persistence to true you want redis to have persistence
+      enabled: false
+    # disableCommand is set as null to enable FLUSHALL and FLUSHDB and allow cache purge and flush
+    disableCommands: []
+  # Set architecture to "replication" to have a primary and secondary redis. Not necessary for caching
+  architecture: "replication"
 
 
 

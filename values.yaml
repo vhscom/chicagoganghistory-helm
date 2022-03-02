@@ -343,6 +343,9 @@ wpSalts: {}
 # Some of the variables configured above are put into a variable here, that's
 # completely stored as a b64encoded secret in Kubernetes. If you're not a
 # developer, never change this variable, only change the variables it points to.
+#
+# VHS: Fixed https://open.greenhost.net/stackspin/wordpress-helm/-/issues/113 in fork
+# remove this commit and rebase onto upstream once issue is resolved there as well
 ansibleSecrets: |
   BACKUP_NAME: {{ .Release.Name }}
   BACKUP_TARGET: {{ .Values.backup.target }}
@@ -366,7 +369,7 @@ ansibleSecrets: |
   WP_PASS: {{ .Values.wordpress.config.adm.pssw }}
   WP_REDIS_ENABLED: {{ .Values.redis.enabled }}
   WP_REDIS_HOST: {{ .Release.Name }}-redis-master
-  WP_REDIS_PASSWORD: {{ .Values.redis.password | default ( randAlphaNum 15 ) }}
+  WP_REDIS_PASSWORD: {{ .Values.redis.auth.password | default ( randAlphaNum 15 ) }}
   WP_THEMES_INSTALL: {{ .Values.wordpress.themes_install }}
   WP_TITLE: {{ .Values.wordpress.site.title }}
   WP_URL: {{ .Values.wordpress.site.url }}
