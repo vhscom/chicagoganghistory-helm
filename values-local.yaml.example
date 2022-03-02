@@ -45,6 +45,9 @@ wordpress:
     # Download plugins added for Chicago Gang History
     - cryout-serious-slider
     - wp-migrate-db
+    - pods
+    - pods-seo
+    - photoswipe-masonry
 
 
   # Install includes all parent, child, default, active and fallback themes
