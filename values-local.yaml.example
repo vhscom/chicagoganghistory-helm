@@ -243,6 +243,15 @@ ingress:
 #         If you use a custom certificate, insert your TLS key here, it will be
 #         saved as a Kubernetes secret.
 
+# This will restrict WordPress deployment to the specified node. This is useful
+# when you are working with limited resources and do not want to run WordPress
+# on a resourced-constrained node.
+#
+# See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+# for more information on assigning pods to nodes.
+# nodeSelector:
+#   kubernetes.io/hostname: k3s-server-1
+
 # Set this for use with Minikube:
 # service:
 #   type: NodePort
