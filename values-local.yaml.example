@@ -16,7 +16,7 @@ wordpress:
     # site URL in its database. To change this value, you would need to helm
     # delete and then helm install the chart again, or manually change the
     # WordPress database fields that contain the URL.
-    url: "http://nyc1-k3s-cluster"
+    url: "https://www.chicagoganghistory.com"
     title: "Chicago Gang History"
     # If you are including a plugin to alias wp login then set an alt.path and set alt.config options
     # NOTE: The value of alt enabled must be set as true or false
@@ -227,14 +227,20 @@ ingress:
   # Example annotation to make cert-manager manage the TLS certificates for
   # this ingress (Don't supply crt and key to the tls config in this case).
   annotations:
+    kubernetes.io/ingress.class: traefik
     kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    traefik.ingress.kubernetes.io/redirect-regex: ^http://(?:www.)?chicagoganghistory.com/(.*)"
+    traefik.ingress.kubernetes.io/redirect-replacement: https://chicagoganghistory.com/$1
   path: /
   hosts:
-    - nyc1-k3s-cluster
-#   tls:
-#     - hosts:
-#         - <REPEAT YOUR HOSTNAME HERE>
-#       secretName: wordpress-cert
+    - www.chicagoganghistory.com
+    - chicagoganghistory.com
+  tls:
+    - hosts:
+        - www.chicagoganghistory.com
+        - chicagoganghistory.com
+      secretName: www-chicagoganghistory-com-tls
 #       crt: |
 #         Optionally insert your certificate here, it will be saved as a
 #         Kubernetes secret. You can insert the whole certificate chain here.
