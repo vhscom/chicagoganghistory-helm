@@ -229,7 +229,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
     kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/redirect-regex: ^http://(?:www.)?chicagoganghistory.com/(.*)"
     traefik.ingress.kubernetes.io/redirect-replacement: https://chicagoganghistory.com/$1
   path: /
