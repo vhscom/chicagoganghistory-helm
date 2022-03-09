@@ -1,3 +1,8 @@
+# Chicago Gang History Helm Chart
+
+This is a customized Helm chart to accompany the blog post [Moving from Pantheon.io to Kubernetes](https://vhs.codeberg.page/post/move-pantheon-wordpress-site-kubernetes) for using Ansible to set up a hardened WordPress using Kubernetes and Redis. It is based on the sensational [StackSpin wordpress-helm chart](https://open.greenhost.net/stackspin/wordpress-helm) and was used to save over $400/month in hosting fees.
+
+![website screenshot](chicagoganghistory-k3s-valkyrie-fs8.png)
 ## Setup
 
 ### Prerequisites
